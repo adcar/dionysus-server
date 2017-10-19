@@ -1,0 +1,33 @@
+{
+  "name": "Dionysus",
+  "version": "1.0.0",
+  "description": "Self-hosted TV Show and Movie streamer",
+  "main": "app.js",
+  "scripts": {
+    "test": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/md5hashbrowns/dionysus.git"
+  },
+  "keywords": [
+    "stream",
+    "TV Shows",
+    "Movies"
+  ],
+  "author": "MD5HashBrowns",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/md5hashbrowns/dionysus/issues"
+  },
+  "homepage": "https://github.com/md5hashbrowns/dionysus#readme",
+  "dependencies": {
+    "adblock-minus": "^1.0.4",
+    "body-parser": "^1.18.2",
+    "ejs": "^2.5.7",
+    "express": "^4.16.2",
+    "express-http-proxy": "^1.0.7",
+    "request": "^2.83.0",
+    "urlencode": "^1.1.0"
+  }
+}

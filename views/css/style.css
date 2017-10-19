@@ -1,0 +1,87 @@
+@import url("https://fonts.googleapis.com/css?family=Roboto:100,400,700");
+* {
+  font-family: "Roboto", sans-serif;
+  color: white;
+  box-sizing: border-box;
+}
+
+h1.logo {
+  margin-top: 0;
+  margin-bottom: 15px;
+  font-family: "Roboto", sans-serif;
+  font-weight: 100;
+  font-size: 10em;
+}
+
+body {
+  background-color: #212121;
+  padding: 0rem 2rem;
+}
+
+form {
+  padding: 2rem 0;
+  margin: 0 auto;
+}
+form div {
+  margin: 0 auto;
+  max-width: 60em;
+}
+form input[type="text"] {
+  font-size: 2em;
+  width: 100%;
+  background-color: #424242;
+  padding: 0.5em;
+  border: 0;
+  margin-top: 0.5em;
+  -webkit-transition: all 0.25s ease-out;
+  transition: all 0.25s ease-out;
+}
+form input[type="text"]:focus {
+  -webkit-transition: all 0.25s ease-out;
+  transition: all 0.25s ease-out;
+  background-color: #616161;
+  outline: 0;
+}
+form input[type="text"]:focus::-webkit-input-placeholder {
+  color: #424242;
+}
+form input[type="text"]:focus::-moz-placeholder {
+  color: #424242;
+}
+form input[type="text"]:focus:-ms-input-placeholder {
+  color: #424242;
+}
+form input[type="text"]:focus::placeholder {
+  color: #424242;
+}
+form label {
+  font-size: 1.7em;
+  width: 100%;
+}
+
+span.error {
+  font-weight: 100;
+  font-size: 3em;
+}
+.text-center {
+  text-align: center;
+}
+.block-center {
+  margin: 0 auto;
+}
+
+.iframe-wrapper {
+  padding: 2rem 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+@media screen and (max-width: 940px){
+  h1.logo {
+    font-size: 5em;
+  }
+}

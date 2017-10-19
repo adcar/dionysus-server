@@ -28,3 +28,4 @@ From the dionysus directory run:
 node app.js
 ```
 
+Then visit [localhost:3000](http://localhost:3000) 

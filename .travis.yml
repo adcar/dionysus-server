@@ -3,5 +3,5 @@ node_js:
  - "node"
 
 before_install:
- - sed -i 's/ENTER_API_KEY_HERE/$API_KEY/g' config.json
+ - sed -i 's/ENTER_API_KEY_HERE/$API_KEY/g' /home/travis/build/MD5HashBrowns/dionysus/config.json
 

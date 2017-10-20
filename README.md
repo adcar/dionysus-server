@@ -11,17 +11,13 @@ npm install
 ```
 
 ## Configure
-Make sure to set your API key in the `config.json` file. You can set other options like port number and quality.
+Make sure to set your API key in the `config.env` file. You can set other options like port number and quality.
 
-### config.json:
-```json
-{
-  "apiKey" : "INSERT_API_KEY",
-  "port" : 3000,
-  "quality": "720p"
-}
-
-
+### config.env:
+```bash
+API_KEY="INSERT_API_KEY_HERE"
+PORT=3000
+QUALITY="720p"
 ```
 
 ## Run

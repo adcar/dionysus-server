@@ -4,7 +4,7 @@
   "description": "Self-hosted TV Show and Movie streamer",
   "main": "app.js",
   "scripts": {
-    "test": "karma start --single-run --browsers PhantomJS"
+    "test": "karma start --single-run --browsers Firefox"
   },
   "repository": {
     "type": "git",

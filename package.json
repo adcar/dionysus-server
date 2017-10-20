@@ -4,7 +4,7 @@
   "description": "Self-hosted TV Show and Movie streamer",
   "main": "app.js",
   "scripts": {
-    "test": "node app.js"
+    "test": "./node_modules/.bin/karma start --single-run --browsers PhantomJS"
   },
   "repository": {
     "type": "git",
@@ -28,5 +28,9 @@
     "express": "^4.16.2",
     "request": "^2.83.0",
     "urlencode": "^1.1.0"
+  },
+  "devDependencies": {
+    "karma": "^1.7.1",
+    "karma-phantomjs-launcher": "^1.0.4"
   }
 }

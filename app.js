@@ -9,7 +9,6 @@ const urlencode = require('urlencode');
 
 // Pull in config enviroment variables
 require('env2')('config.env');
-console.log(process.env.API_KEY);
 if (process.env.API_KEY.length != 32){
   throw Error("You have not entered an API Key. Please edit the config.env file and place your alluc.ee API Key inside.");
 }

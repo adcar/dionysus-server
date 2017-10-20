@@ -5,10 +5,13 @@ const request = require('request');
 const urlencode = require('urlencode');
 
 // Pull in config
-const config = require('./config.json');
+// const config = require('./config.json');
 
-if (config.apiKey == "INSERT_API_KEY_HERE"){
-  throw Error("You have not entered an API Key. Please edit the config.json file and place your alluc.ee API Key inside.");
+// Pull in config enviroment variables
+require('env2')('./config.env');
+
+if (process.env.API_KEY == "INSERT_API_KEY_HERE"){
+  throw Error("You have not entered an API Key. Please edit the config.env file and place your alluc.ee API Key inside.");
 }
 
 const app = express();
@@ -34,7 +37,7 @@ app.get("/watch/:id", function(req, res ){
   console.log("SEARCH: " + req.params.id + " (" + encodedInput + ")"); // Logging
 
   // Concatenation is fun :D
-  request('https://www.alluc.ee/api/search/stream/?apikey=' + config.apiKey + '&query=' + encodedInput + '%20' + config.quality + '%20' + 'host%3Aopenload.co' + '&count=4&from=0&getmeta=0', function (error, response, body) {
+  request('https://www.alluc.ee/api/search/stream/?apikey=' + process.env.API_KEY + '&query=' + encodedInput + '%20' + process.env.QUALITY + '%20' + 'host%3Aopenload.co' + '&count=4&from=0&getmeta=0', function (error, response, body) {
 
     // Simple JSON parse from the request
     var parsedBody = JSON.parse(body);
@@ -81,6 +84,6 @@ app.post("/watch/submit", function(req, res){
 
 
 
-app.listen(config.port, function(){
-  console.log("Dionysus server started on port " + config.port + "...")
+app.listen(process.env.PORT, function(){
+  console.log("Dionysus server started on port " + process.env.PORT + "...")
 })

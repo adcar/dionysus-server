@@ -1,7 +1,9 @@
 language: node_js
 node_js:
- - "node"
-
+- node
+env:
+  global:
+    secure: RE+9R94GkeuQYzgJ8hzu67V1gdkVZGW/f56r6BpJ4VaiKl60y7M6T354bllWoS8b2xVk1herJnyJLLIb9NEq3d28hNuyUfhJiBlFCfCsA+XPjv4Ra3/Y79WY6q9Rn4SWOuBebOXANSaYbZi/49Q4XjuT7NPL9Fo6En7nWtMAfYo0g3kqZFSr6NlFbC4a0lthLFoF9O9eTSx68H62jL2bG9AHg94Uu/YMxw+eKl3CzBy3k6/5vvU5sy1pKhjAkRd0COLGo2Z2Qgc1gGNYPucPpUCsc1eoI81G0BNhO24yoq9vbo7pw9/7yD5wa59SFJPTDwyS32FDDPB+4OlZFE5AG7FvcugTDutDUBvDTz9uk+THcfFUqT3fQAlqW1Fp2lxYYdRIJvhiqJ54gTphUqa6jHnC8QMLlW+XscEdGiCXQYMAye6BS1+CimilcBptSbv85iAkYG5zIj0RCvyQjITKEBtvrz0nINH+zSYDWt7PmJHka4xP1/UOgabVM8Ry6yQJnGjJDhsTrGbu4tY9ylR9iOz0aguoEHAWVZUTN7IcgtUsJgB+Jz7ROlJAoWCxGLbHr+Wt1bRzcw59pgzH5pcbSOQRdqI4XikoBEJA0Buf1j/fJS0wdpIAYyALCFnYBxzeFROPCn2jekUcnLXR3j64aFGOqkjcD9ZQOzFzXJLkocs=
 before_install:
- - sed -i 's/ENTER_API_KEY_HERE/$API_KEY/g' /home/travis/build/MD5HashBrowns/dionysus/config.json
+- sed -i 's/ENTER_API_KEY_HERE/$API_KEY/g' /home/travis/build/MD5HashBrowns/dionysus/config.json
 

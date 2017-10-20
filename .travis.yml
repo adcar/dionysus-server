@@ -4,3 +4,6 @@ node_js:
 env:
   global:
     secure: lIwpTi23DTvALYJTJnaHvcQxw4DWFwxnumSHD6/sfnvr33Kui82D4ozN/HcHq2Dz/pHaau6dhWQssep5zdUvYRJI8wRcEySqiGnFZpYlw8NQzuwcrH1EHmUuY72VwT4j7u+NgeRk2TQX11qGXEsgwxJLgd1ImlDWJfvZ4GHQeQ5v3j4soda41KyKO0Hykz+bIcj5P8yYMBCSv3sGKZQc8uqej1XETk5I9r1X0cYk9MlCuUurc9xPxgxeZJ7lbqbVSrWQ9809oy/Td5DFYKopCRdDn4zMJVUYbUQVlKsdI8EXQhl8YNtaBT3P7RZjly2CVfuBGwMPV3kLYwfZEHAcIWcjUENZFv044TUUpaC+Z+v4xLjAPT0Q+07JOi2Jjo3q36jEjE68fciJ4ViOJSleVQu88Ff+IRThXXBh534c+zC36aKhLiKMSpFLBrVO68bzj+RBww+8ehFpbtKt2/cE2vHpUU74FibXDFfS2/W6bhgMTdZBuhplyNO5UCZdcGykhI35Fg3xONflolQaAwkvEMkGa7OtCyOKu/QH8ebCX++h6n1Ba6+g5sE4ir5oK34u21ta6/pY9/qQEGqP0U1WvgmS1Xu8X/nQ4nkIVeiF44XZO/dSZGCUQQB+rITzd9s+iaQcRpIRCLhQtwPB6WEerHtx8ySdMAiJz+A/8AjOmTg=
+before_script:
+  - export DISPLAY=:99.0
+  - sh -e /etc/init.d/xvfb start

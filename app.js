@@ -131,7 +131,7 @@ app.get('/watch-movie/:id', function (req, res) {
         title: 'Dionysus',
         streamsError: streamsError,
         movieInfo: movieInfo,
-        page: 'tvShows'
+        page: 'movies'
       })
     })
   })

@@ -7,9 +7,10 @@
 
 }
 
-.row .col .card {
+.card {
 	margin: 1rem auto;
 	border: 0;
+	background-color: #343a40;
 	box-shadow: 0px 3px 11px rgba(0,0,0,0.5);
 	color: white;
 }

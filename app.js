@@ -32,6 +32,11 @@ app.get('/', function(req, res){
 // TMDb
 tmdb.miscPopularMovies((err, movies) => {
   // Get movie page
+
+  for (i = 0; i < movies.results.length; i++){
+    movies.results[i].date = movies.results[i].release_date.substring(0, 4)
+  }
+
   app.get('/movies', function (req, res) {
     res.render('movies', {
       title: 'Dionysus',
@@ -92,19 +97,38 @@ app.get('/watch/:id', function (req, res) {
   })
 })
 
-app.get('/search/:id', function (req, res) {
+app.get('/search-movies/:id', function (req, res) {
   search = req.params.id
   tmdb.searchMovie({ query: search }, (err, response) => {
-    res.render('search', {
+    // Made a little for loop to take dates from results.release_date and only take first four digits, in order to get the year date. E.g., 2014, 2015, 2016 etc.
+    for (i = 0; i < response.results.length; i++){
+      response.results[i].date = response.results[i].release_date.substring(0, 4)
+    }
+    res.render('searchMovies', {
       title: search,
       searchResults: response.results,
-      page: "search"
+      page: "movies"
     })
   })
 })
 
-app.post('/search/submit', function (req, res) {
-  res.redirect('/search/' + req.body.searchMovies)
+app.post('/search-movies/submit', function (req, res) {
+  res.redirect('/search-movies/' + req.body.searchMovies)
+})
+
+app.get('/search-tv-shows/:id', function (req, res) {
+  search = req.params.id
+  tmdb.searchTv({ query: search }, (err, response) => {
+    res.render('searchTvShows', {
+      title: search,
+      searchResults: response.results,
+      page: "tvShows"
+    })
+  })
+})
+
+app.post('/search-tv-shows/submit', function (req, res) {
+  res.redirect('/search-tv-shows/' + req.body.searchTvShows)
 })
 
 app.listen(process.env.PORT, function () {

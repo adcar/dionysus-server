@@ -4,8 +4,6 @@ const path = require('path')
 const request = require('request')
 const urlencode = require('urlencode')
 
-const tmdb = require('moviedb')(process.env.TMDB_API_KEY);
-
 // Pull in config enviroment variables
 require('env2')('./config.env')
 
@@ -17,10 +15,7 @@ if (process.env.TMDB_API_KEY == 'INSERT_TMDB_API_KEY_HERE') {
   throw Error('You have not entered your Trakt ID and/or Trakt Secret in config.env. Please visit https://trakt.tv/oauth/applications/new to create a Trakt app and get these credientials')
 }
 
-var clientId = process.env.TRAKT_CLIENT_ID
-var clientSecret = process.env.TRAKT_CLIENT_SECRET
-
-
+const tmdb = require('moviedb')(process.env.TMDB_API_KEY)
 
 const app = express()
 app.set('view engine', 'ejs')
@@ -30,23 +25,32 @@ app.use(express.static(__dirname + '/views'))
 // Body Parser middleware
 app.use(urlencodedParser = bodyParser.urlencoded({ extended: false }))
 
+app.get('/', function(req, res){
+  res.redirect('/movies')
+})
 
-
-
-//TMDb
-tmdb.miscPopularMovies( (err, movies) => {
+// TMDb
+tmdb.miscPopularMovies((err, movies) => {
   // Get movie page
-app.get("/", function(req, res){
-  res.render("index", {
-    title: "Dionysus",
-    movies: movies
-    });
-});
+  app.get('/movies', function (req, res) {
+    res.render('movies', {
+      title: 'Dionysus',
+      movies: movies,
+      page: 'movies'
+    })
+  })
+})
 
-});
-
-
-
+tmdb.miscPopularTvs((err, tvShows) => {
+  // Get TV Shows page
+  app.get('/tv-shows', function (req, res) {
+    res.render('tvShows', {
+      title: 'Dionysus',
+      tvShows: tvShows,
+      page: 'tvShows'
+    })
+  })
+})
 
 
 
@@ -55,7 +59,7 @@ app.get('/watch/:id', function (req, res) {
   console.log('SEARCH: ' + req.params.id + ' (' + encodedInput + ')') // Logging
 
   // Concatenation is fun :D
-  request('https://www.alluc.ee/api/search/stream/?apikey=' + process.env.API_KEY + '&query=' + encodedInput + '%20' + process.env.QUALITY + '%20' + 'host%3Aopenload.co' + '&count=4&from=0&getmeta=0', function (error, response, body) {
+  request('https://www.alluc.ee/api/search/stream/?apikey=' + process.env.ALLUC_API_KEY + '&query=' + encodedInput + '%20' + process.env.QUALITY + '%20' + 'host%3Aopenload.co' + '&count=4&from=0&getmeta=0', function (error, response, body) {
     // Simple JSON parse from the request
     var parsedBody = JSON.parse(body)
 
@@ -87,19 +91,13 @@ app.get('/watch/:id', function (req, res) {
 })
 
 app.get('/search/:id', function (req, res) {
-
   search = req.params.id
-
-
   tmdb.searchMovie({ query: search }, (err, response) => {
     res.render('search', {
       title: search,
       searchResults: response.results
     })
   })
-
-
-
 })
 
 app.post('/search/submit', function (req, res) {

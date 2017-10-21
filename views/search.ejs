@@ -1,13 +1,21 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <title><%= title %></title>
-  </head>
-  <body>
-    <h1>Hello, world</h1>
+<% include ./partials/header %>
+    <h1>Search</h1>
+
+
+
+    <% for(var i=0; i<searchResults.length; i++) { %>
+      <div class="col">
+        <div class="card" style="width: 250px;">
+          <img class="card-img-top" src="http://image.tmdb.org/t/p/w342/<%= searchResults[i].poster_path %>" alt="Card image cap">
+          <div class="card-body">
+            <span class="card-title"><%= searchResults[i].title %></span><br>
+            <a href="/watch/<%= searchResults[i].title %>" class="btn btn-primary">Watch</a>
+          </div>
+        </div>
+      </div>
+    <% } %>
+
     <% for(var i=0; i<searchResults.length; i += 4) { %>
     <p><%= searchResults[i].title%></p>
     <% } %>
-  </body>
-</html>
+<% include ./partials/footer %>

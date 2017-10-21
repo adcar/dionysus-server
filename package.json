@@ -4,7 +4,7 @@
   "description": "Self-hosted TV Show and Movie streamer",
   "main": "app.js",
   "scripts": {
-    "test": "node app.js & mocha"
+    "test": "node app.js & mocha && ejslint  views/*.ejs views/partials/*.ejs && standard"
   },
   "repository": {
     "type": "git",
@@ -27,16 +27,14 @@
     "ejs": "^2.5.7",
     "env2": "^2.2.0",
     "express": "^4.16.2",
-    "fanart.tv": "^2.0.0",
-    "json-beautify": "^1.0.1",
     "moviedb": "^0.2.10",
     "request": "^2.83.0",
-    "trakt.tv": "^6.0.1",
-    "trakt.tv-images": "^5.1.1",
     "urlencode": "^1.1.0"
   },
   "devDependencies": {
     "chai": "^4.1.2",
-    "mocha": "^4.0.1"
+    "ejs-lint": "^0.3.0",
+    "mocha": "^4.0.1",
+    "standard": "^10.0.3"
   }
 }

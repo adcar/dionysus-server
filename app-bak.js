@@ -4,7 +4,7 @@ const path = require('path')
 const request = require('request')
 const urlencode = require('urlencode')
 
-const MovieDB = require('moviedb')('2e0bfe56b018618b270a6e0428559292');
+const MovieDB = require('moviedb')('2e0bfe56b018618b270a6e0428559292')
 
 // Pull in config enviroment variables
 require('env2')('./config.env')
@@ -20,8 +20,6 @@ if (process.env.TRAKT_CLIENT_ID == 'INSERT_TRAKT_CLIENT_ID_HERE' || process.env.
 var clientId = process.env.TRAKT_CLIENT_ID
 var clientSecret = process.env.TRAKT_CLIENT_SECRET
 
-
-
 const app = express()
 app.set('view engine', 'ejs')
 app.set('views', path.join(__dirname, 'views'))
@@ -30,18 +28,10 @@ app.use(express.static(__dirname + '/views'))
 // Body Parser middleware
 app.use(urlencodedParser = bodyParser.urlencoded({ extended: false }))
 
-
-
-
-//TMDb
+// TMDb
 mdb.searchMovie({ query: 'Alien' }, (err, res) => {
-  console.log(res);
-});
-
-
-
-
-
+  console.log(res)
+})
 
 app.get('/watch/:id', function (req, res) {
   var encodedInput = urlencode(req.params.id)

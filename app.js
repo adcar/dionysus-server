@@ -25,18 +25,13 @@ app.use(express.static(__dirname + '/views'))
 // Body Parser middleware
 app.use(urlencodedParser = bodyParser.urlencoded({ extended: false }))
 
-app.get('/', function(req, res){
+app.get('/', function (req, res) {
   res.redirect('/movies')
 })
 
 // TMDb
 tmdb.miscPopularMovies((err, movies) => {
   // Get movie page
-
-  for (i = 0; i < movies.results.length; i++){
-    movies.results[i].date = movies.results[i].release_date.substring(0, 4)
-  }
-
   app.get('/movies', function (req, res) {
     res.render('movies', {
       title: 'Dionysus',
@@ -53,46 +48,91 @@ tmdb.miscPopularTvs((err, tvShows) => {
       title: 'Dionysus',
       tvShows: tvShows,
       page: 'tvShows'
-    })
+    })``
   })
 })
 
 
+// NOTE: Instead of having two watch gets I could have one and check whether it's a movie or not based on it's ID, they could render either watchMovie or watchTvShow. But I mean, whos got time for that.
+app.get('/watch-tv-show/:id', function (req, res) {
+  tmdb.tvInfo({ id: req.params.id}, (err, tvInfo) => {
 
-app.get('/watch/:id', function (req, res) {
-  var encodedInput = urlencode(req.params.id)
-  console.log('SEARCH: ' + req.params.id + ' (' + encodedInput + ')') // Logging
 
-  // Concatenation is fun :D
-  request('https://www.alluc.ee/api/search/stream/?apikey=' + process.env.ALLUC_API_KEY + '&query=' + encodedInput + '%20' + process.env.QUALITY + '%20' + 'host%3Aopenload.co' + '&count=4&from=0&getmeta=0', function (error, response, body) {
-    // Simple JSON parse from the request
-    var parsedBody = JSON.parse(body)
 
-    var links = [] // Initialize links array
-    for (let i = 0; i < 4; i++) { //  Creates an array with everything filled with "" (nothing) rather than undefined. (Undefined will cause node server to crash)
-      links.push('')
-    }
 
-    if (parsedBody['result'].length > 0) {
-      for (let i = 0; i < parsedBody['result'].length; i++) {
-        links[i] = parsedBody['result'][i]['hosterurls'][0]['url'] // Replaces "" with links
+
+    // Concatenation is fun :D
+    request('https://www.alluc.ee/api/search/stream/?apikey=' + process.env.ALLUC_API_KEY + '&query=' + encodedInput + '%20' + process.env.QUALITY + '%20' + 'host%3Aopenload.co' + '&count=4&from=0&getmeta=0', function (error, response, body) {
+      // Simple JSON parse from the request
+      var parsedBody = JSON.parse(body)
+
+      var links = [] // Initialize links array
+      for (let i = 0; i < 4; i++) { //  Creates an array with everything filled with "" (nothing) rather than undefined. (Undefined will cause node server to crash)
+        links.push('')
       }
-      var streamsError = '' // Sets the stream error content to nothing
-    } else {
-      console.log("ERR: There's no streams available") // Logging
-      var streamsError = 'Sorry, there are no streams available for this TV Show / Movie :(' // Gives stream error some content
-    }
 
-    console.log('LINKS: ' + links) // Logging
+      if (parsedBody['result'].length > 0) {
+        for (let i = 0; i < parsedBody['result'].length; i++) {
+          links[i] = parsedBody['result'][i]['hosterurls'][0]['url'] // Replaces "" with links
+        }
+        var streamsError = '' // Sets the stream error content to nothing
+      } else {
+        console.log("ERR: There's no streams available") // Logging
+        var streamsError = 'Sorry, there are no streams available for this TV Show / Movie :(' // Gives stream error some content
+      }
 
-    res.render('watch', { // Render the watch page and pass some variables
-      link1: links[0],
-      link2: links[1],
-      link3: links[2],
-      link4: links[3],
-      title: "Dionysus",
-      streamsError: streamsError,
-      page: "watch"
+      console.log('LINKS: ' + links) // Logging
+
+      res.render('watch', { // Render the watch page and pass some variables
+        link1: links[0],
+        link2: links[1],
+        link3: links[2],
+        link4: links[3],
+        title: 'Dionysus',
+        streamsError: streamsError,
+        page: 'tvShows'
+      })
+    })
+  })
+  })
+
+
+app.get('/watch-movie/:id', function (req, res) {
+
+  tmdb.movieInfo({ id: req.params.id}, (err, movieInfo) => {
+    // Concatenation is fun :D
+    console.log(movieInfo)
+    request('https://www.alluc.ee/api/search/stream/?apikey=' + process.env.ALLUC_API_KEY + '&query=' + movieInfo.title + '%20' + movieInfo.release_date.substring(0, 4) + "%20" + process.env.QUALITY + '%20' + 'host%3Aopenload.co' + '&count=4&from=0&getmeta=0', function (error, response, body) {
+      // Simple JSON parse from the request
+      var parsedBody = JSON.parse(body)
+
+      var links = [] // Initialize links array
+      for (let i = 0; i < 4; i++) { //  Creates an array with everything filled with "" (nothing) rather than undefined. (Undefined will cause node server to crash)
+        links.push('')
+      }
+
+      if (parsedBody['result'].length > 0) {
+        for (let i = 0; i < parsedBody['result'].length; i++) {
+          links[i] = parsedBody['result'][i]['hosterurls'][0]['url'] // Replaces "" with links
+        }
+        var streamsError = '' // Sets the stream error content to nothing
+      } else {
+        console.log("ERR: There's no streams available") // Logging
+        var streamsError = 'Sorry, there are no streams available for this TV Show / Movie :(' // Gives stream error some content
+      }
+
+      console.log('LINKS: ' + links) // Logging
+
+      res.render('watchMovie', { // Render the watch page and pass some variables
+        link1: links[0],
+        link2: links[1],
+        link3: links[2],
+        link4: links[3],
+        title: 'Dionysus',
+        streamsError: streamsError,
+        movieInfo: movieInfo,
+        page: 'tvShows'
+      })
     })
   })
 })
@@ -100,14 +140,10 @@ app.get('/watch/:id', function (req, res) {
 app.get('/search-movies/:id', function (req, res) {
   search = req.params.id
   tmdb.searchMovie({ query: search }, (err, response) => {
-    // Made a little for loop to take dates from results.release_date and only take first four digits, in order to get the year date. E.g., 2014, 2015, 2016 etc.
-    for (i = 0; i < response.results.length; i++){
-      response.results[i].date = response.results[i].release_date.substring(0, 4)
-    }
     res.render('searchMovies', {
       title: search,
       searchResults: response.results,
-      page: "movies"
+      page: 'movies'
     })
   })
 })
@@ -122,7 +158,7 @@ app.get('/search-tv-shows/:id', function (req, res) {
     res.render('searchTvShows', {
       title: search,
       searchResults: response.results,
-      page: "tvShows"
+      page: 'tvShows'
     })
   })
 })

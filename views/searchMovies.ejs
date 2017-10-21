@@ -9,7 +9,7 @@
             <img class="card-img-top" src="http://image.tmdb.org/t/p/w342/<%= searchResults[i].poster_path %>"  alt="Card image cap" onerror="this.src='http://via.placeholder.com/342x513';">
             <div class="card-body">
               <span class="card-title"><%= searchResults[i].title %> (<%= searchResults[i].date %>)</span><br>
-              <a href="/watch/<%= searchResults[i].title %>%20<% searchResults[i].date %>" class="btn btn-primary">Watch</a>
+              <a href="/watch-movie/<%= searchResults[i].id %>%" class="btn btn-primary">Watch</a>
             </div>
           </div>
         </div>

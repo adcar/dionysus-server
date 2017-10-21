@@ -85,7 +85,9 @@ app.get('/watch/:id', function (req, res) {
       link2: links[1],
       link3: links[2],
       link4: links[3],
-      streamsError: streamsError
+      title: "Dionysus",
+      streamsError: streamsError,
+      page: "watch"
     })
   })
 })
@@ -95,13 +97,14 @@ app.get('/search/:id', function (req, res) {
   tmdb.searchMovie({ query: search }, (err, response) => {
     res.render('search', {
       title: search,
-      searchResults: response.results
+      searchResults: response.results,
+      page: "search"
     })
   })
 })
 
 app.post('/search/submit', function (req, res) {
-  res.redirect('/search/' + req.body.search)
+  res.redirect('/search/' + req.body.searchMovies)
 })
 
 app.listen(process.env.PORT, function () {

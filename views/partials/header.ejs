@@ -7,7 +7,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="/css/style.css">
   </head>
   <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -27,9 +27,10 @@
             <a class="nav-link" href="/tv-shows">TV Shows<% if (page == "tvShows"){ %> <span class="sr-only">(current)</span><% } %></a>
           </li>
         </ul>
-
         <form action="/search/submit" method="post" class="form-inline my-2 my-lg-0">
-          <input class="form-control mr-sm-2" name="search" type="search" placeholder="Search" aria-label="Search">
+          <% if (page == "tvShows"){ %><input class="form-control mr-sm-2" name="searchTvShows" type="search" placeholder="Search TV Shows..." aria-label="Search TV Shows">
+          <% } else { %><input class="form-control mr-sm-2" name="searchMovies" type="search" placeholder="Search Movies..." aria-label="Search Movies"><% } %>
+
           <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
         </form>
 

@@ -1,11 +1,52 @@
-.row .col .card {
-	margin: 1rem auto; 
+:root {
+	--grey-900: #212121;
+	--grey-800: #424242;
+	--red-900: #B71C1C;
+	--red-700: #D32F2F;
+	--accent-color: var(--red-900);
 
+}
+
+.row .col .card {
+	margin: 1rem auto;
+	border: 0;
+	box-shadow: 0px 3px 11px rgba(0,0,0,0.5);
+	color: white;
 }
 
 .card-title {
   font-size: 1.3em;
 }
-.row {
+.btn-primary {
+	background-color: var(--red-900);
+	border: 0;
+}
+.btn-primary:hover {
+	background-color: var(--red-700);
+}
 
+.btn-outline-success {
+	border-color: var(--accent-color);
+	color: var(--accent-color);
+}
+.btn-outline-success:hover {
+	border-color: var(--accent-color);
+	background-color: var(--accent-color);
+}
+.btn-outline-success:focus {
+	border-color: var(--accent-color);
+	background-color: var(--accent-color);
+	box-shadow: 0 0 0 0.2rem rgba(183,28,28, 0.5);
+}
+
+
+.btn-outline-success:not([disabled]):not(.disabled):active, .btn-outline-success:not([disabled]):not(.disabled).active,
+.show > .btn-outline-success.dropdown-toggle {
+  color: #fff;
+	border-color: var(--accent-color);
+	background-color: var(--accent-color);
+  box-shadow: 0 0 0 0.2rem rgba(183,28,28, 0.5);
+}
+body {
+	background-color: var(--grey-900);
 }

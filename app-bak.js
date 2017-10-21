@@ -4,7 +4,7 @@ const path = require('path')
 const request = require('request')
 const urlencode = require('urlencode')
 
-const tmdb = require('moviedb')(process.env.TMDB_API_KEY);
+const MovieDB = require('moviedb')('2e0bfe56b018618b270a6e0428559292');
 
 // Pull in config enviroment variables
 require('env2')('./config.env')
@@ -13,7 +13,7 @@ require('env2')('./config.env')
 if (process.env.ALLUC_API_KEY == 'INSERT_ALLUC_API_KEY_HERE') {
   throw Error('You have not entered your Alluc API Key in config.env. Please visit http://accounts.alluc.com/ and register for an account to get an API key.')
 }
-if (process.env.TMDB_API_KEY == 'INSERT_TMDB_API_KEY_HERE') {
+if (process.env.TRAKT_CLIENT_ID == 'INSERT_TRAKT_CLIENT_ID_HERE' || process.env.TRAKT_CLIENT_SECRET == 'INSERT_TRAKT_CLIENT_SECRET_HERE') {
   throw Error('You have not entered your Trakt ID and/or Trakt Secret in config.env. Please visit https://trakt.tv/oauth/applications/new to create a Trakt app and get these credientials')
 }
 
@@ -34,15 +34,8 @@ app.use(urlencodedParser = bodyParser.urlencoded({ extended: false }))
 
 
 //TMDb
-tmdb.miscPopularMovies( (err, movies) => {
-  // Get movie page
-app.get("/", function(req, res){
-  res.render("index", {
-    title: "Dionysus",
-    movies: movies
-    });
-});
-
+mdb.searchMovie({ query: 'Alien' }, (err, res) => {
+  console.log(res);
 });
 
 
@@ -86,24 +79,10 @@ app.get('/watch/:id', function (req, res) {
   })
 })
 
-app.get('/search/:id', function (req, res) {
-
-  search = req.params.id
-
-
-  tmdb.searchMovie({ query: search }, (err, response) => {
-    res.render('search', {
-      title: search,
-      searchResults: response.results
-    })
-  })
-
-
-
-})
-
-app.post('/search/submit', function (req, res) {
-  res.redirect('/search/' + req.body.search)
+app.post('/watch/submit', function (req, res) {
+  var userInput = req.body.userInput
+  var encodedInput = urlencode(userInput)
+  res.redirect('/watch/' + userInput)
 })
 
 app.listen(process.env.PORT, function () {

@@ -26,7 +26,7 @@ app.use(express.static(__dirname + '/views'))
 app.use(urlencodedParser = bodyParser.urlencoded({ extended: false }))
 
 app.get('/', function (req, res) {
-  res.redirect('/movies')
+  res.redirect('/tv-shows')
 })
 
 // TMDb
@@ -48,7 +48,7 @@ tmdb.miscPopularTvs((err, tvShows) => {
       title: 'Dionysus',
       tvShows: tvShows,
       page: 'tvShows'
-    })``
+    })
   })
 })
 
@@ -57,48 +57,58 @@ tmdb.miscPopularTvs((err, tvShows) => {
 app.get('/watch-tv-show/:id', function (req, res) {
   tmdb.tvInfo({ id: req.params.id}, (err, tvInfo) => {
 
-    // Concatenation is fun :D
-    request('https://www.alluc.ee/api/search/stream/?apikey=' + process.env.ALLUC_API_KEY + '&query=' + tvInfo.name + '%20' + process.env.QUALITY + '%20' + 'host%3Aopenload.co' + '&count=4&from=0&getmeta=0', function (error, response, body) {
-      // Simple JSON parse from the request
-      var parsedBody = JSON.parse(body)
-
-      var links = [] // Initialize links array
-      for (let i = 0; i < 4; i++) { //  Creates an array with everything filled with "" (nothing) rather than undefined. (Undefined will cause node server to crash)
-        links.push('')
-      }
-
-      if (parsedBody['result'].length > 0) {
-        for (let i = 0; i < parsedBody['result'].length; i++) {
-          links[i] = parsedBody['result'][i]['hosterurls'][0]['url'] // Replaces "" with links
-        }
-        var streamsError = '' // Sets the stream error content to nothing
-      } else {
-        console.log("ERR: There's no streams available") // Logging
-        var streamsError = 'Sorry, there are no streams available for this TV Show / Movie :(' // Gives stream error some content
-      }
-
-      console.log('LINKS: ' + links) // Logging
 
       res.render('watchTvShow', { // Render the watch page and pass some variables
-        link1: links[0],
-        link2: links[1],
-        link3: links[2],
-        link4: links[3],
         title: 'Dionysus',
-        streamsError: streamsError,
         tvInfo: tvInfo,
         page: 'tvShows'
       })
     })
   })
-  })
 
+
+app.get('/watch-episode/:id', function (req, res){
+
+
+  // I must directly interact with Alluc API via `request` due to lack of npm module
+  // Concatenation is fun :D
+  request('https://www.alluc.ee/api/search/stream/?apikey=' + process.env.ALLUC_API_KEY + '&query=' + urlencode(req.params.id) + '%20' + process.env.QUALITY + '%20' + 'host%3Aopenload.co' + '&count=4&from=0&getmeta=0', function (error, response, body) {
+    // Simple JSON parse from the request
+
+    var parsedBody = JSON.parse(body)
+
+    var links = [] // Initialize links array
+    for (let i = 0; i < 4; i++) { //  Creates an array with everything filled with "" (nothing) rather than undefined. (Undefined will cause node server to crash)
+      links.push('')
+    }
+
+    if (parsedBody['result'].length > 0) {
+      for (let i = 0; i < parsedBody['result'].length; i++) {
+        links[i] = parsedBody['result'][i]['hosterurls'][0]['url'] // Replaces "" with links
+      }
+      var streamsError = '' // Sets the stream error content to nothing
+    } else {
+      console.log("ERR: There's no streams available") // Logging
+      var streamsError = 'Sorry, there are no streams available for this TV Show :(' // Gives stream error some content
+    }
+
+    console.log('LINKS: ' + links) // Logging
+    res.render('watchEpisode', {
+      link1: links[0],
+      link2: links[1],
+      link3: links[2],
+      link4: links[3],
+      title: 'Dionysus',
+      page: 'tvShows',
+      streamsError, streamsError
+    })
+  })
+})
 
 app.get('/watch-movie/:id', function (req, res) {
 
   tmdb.movieInfo({ id: req.params.id}, (err, movieInfo) => {
     // Concatenation is fun :D
-    console.log(movieInfo)
     request('https://www.alluc.ee/api/search/stream/?apikey=' + process.env.ALLUC_API_KEY + '&query=' + movieInfo.title + '%20' + movieInfo.release_date.substring(0, 4) + "%20" + process.env.QUALITY + '%20' + 'host%3Aopenload.co' + '&count=4&from=0&getmeta=0', function (error, response, body) {
       // Simple JSON parse from the request
       var parsedBody = JSON.parse(body)

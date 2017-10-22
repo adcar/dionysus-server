@@ -58,3 +58,15 @@ body {
 h1,p {
 	color: white;
 }
+iframe {
+	margin: 0 auto;
+}
+span.error {
+	color: white;
+  font-weight: 100;
+  font-size: 3em;
+}
+
+.season-selector a {
+	color: var(--accent-color);
+}

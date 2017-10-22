@@ -1,87 +1,75 @@
-@import url("https://fonts.googleapis.com/css?family=Roboto:100,400,700");
-* {
-  font-family: "Roboto", sans-serif;
-  color: white;
-  box-sizing: border-box;
+:root {
+	--grey-900: #212121;
+	--grey-800: #424242;
+	--red-900: #B71C1C;
+	--red-700: #D32F2F;
+	--accent-color: var(--red-900);
+
 }
 
-h1.logo {
-  margin-top: 0;
-  margin-bottom: 15px;
-  font-family: "Roboto", sans-serif;
-  font-weight: 100;
-  font-size: 10em;
+.card {
+	margin: 1rem auto;
+	border: 0;
+	background-color: #343a40;
+	box-shadow: 0px 3px 11px rgba(0,0,0,0.5);
+	color: white;
 }
 
+.card-title {
+  font-size: 1.3em;
+}
+.btn-primary {
+	background-color: var(--red-900);
+	border: 0;
+}
+.btn-primary:hover {
+	background-color: var(--red-700);
+}
+
+.btn-outline-success {
+	border-color: var(--accent-color);
+	color: var(--accent-color);
+}
+.btn-outline-success:hover {
+	border-color: var(--accent-color);
+	background-color: var(--accent-color);
+}
+.btn-outline-success:focus {
+	border-color: var(--accent-color);
+	background-color: var(--accent-color);
+	box-shadow: 0 0 0 0.2rem rgba(183,28,28, 0.5);
+}
+
+
+.btn-outline-success:not([disabled]):not(.disabled):active, .btn-outline-success:not([disabled]):not(.disabled).active,
+.show > .btn-outline-success.dropdown-toggle {
+  color: #fff;
+	border-color: var(--accent-color);
+	background-color: var(--accent-color);
+  box-shadow: 0 0 0 0.2rem rgba(183,28,28, 0.5);
+}
 body {
-  background-color: #212121;
-  padding: 0rem 2rem;
+	background-color: var(--grey-900);
+}
+.extra-padding {
+	padding: 1rem;
 }
 
-form {
-  padding: 2rem 0;
-  margin: 0 auto;
+h1,p {
+	color: white;
 }
-form div {
-  margin: 0 auto;
-  max-width: 60em;
+iframe {
+	margin: 0 auto;
 }
-form input[type="text"] {
-  font-size: 2em;
-  width: 100%;
-  background-color: #424242;
-  padding: 0.5em;
-  border: 0;
-  margin-top: 0.5em;
-  -webkit-transition: all 0.25s ease-out;
-  transition: all 0.25s ease-out;
-}
-form input[type="text"]:focus {
-  -webkit-transition: all 0.25s ease-out;
-  transition: all 0.25s ease-out;
-  background-color: #616161;
-  outline: 0;
-}
-form input[type="text"]:focus::-webkit-input-placeholder {
-  color: #424242;
-}
-form input[type="text"]:focus::-moz-placeholder {
-  color: #424242;
-}
-form input[type="text"]:focus:-ms-input-placeholder {
-  color: #424242;
-}
-form input[type="text"]:focus::placeholder {
-  color: #424242;
-}
-form label {
-  font-size: 1.7em;
-  width: 100%;
-}
-
 span.error {
+	color: white;
   font-weight: 100;
   font-size: 3em;
 }
-.text-center {
-  text-align: center;
-}
-.block-center {
-  margin: 0 auto;
-}
 
-.iframe-wrapper {
-  padding: 2rem 0;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+.season-selector a {
+	color: var(--accent-color);
 }
-
-@media screen and (max-width: 940px){
-  h1.logo {
-    font-size: 5em;
-  }
+.desc {
+	max-width: 37em;
 }

@@ -1,0 +1,25 @@
+<% include ./partials/header %>
+      <!-- Sandbox only allows same origin and scripts -->
+
+    <div class="container extra-padding d-flex justify-content-center flex-column align-items-center">
+
+
+          <h1><%= movieInfo.title %></h1>
+          <p class="desc"><%= movieInfo.overview %></p>
+          <div class="embed-responsive embed-responsive-16by9">
+            <iframe src="/watch-thevideo/<%= link1.substring(20) %>" frameborder="0" allowfullscreen sandbox="allow-same-origin allow-scripts"></iframe>
+          </div>
+
+      </div>
+      <!-- This can probably be converted into a EJS loop (would requuire app.js modification as well) -->
+
+  </div>
+<style>
+body {
+  background-image: linear-gradient(to right, rgba(0,0,0,0.9),rgba(0,0,0,0.6)), url(http://image.tmdb.org/t/p/original<%= movieInfo.backdrop_path %>);
+  background-position: center;
+  background-size: cover;
+}
+
+</style>
+<% include ./partials/footer %>

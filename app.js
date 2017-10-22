@@ -57,12 +57,8 @@ tmdb.miscPopularTvs((err, tvShows) => {
 app.get('/watch-tv-show/:id', function (req, res) {
   tmdb.tvInfo({ id: req.params.id}, (err, tvInfo) => {
 
-
-
-
-
     // Concatenation is fun :D
-    request('https://www.alluc.ee/api/search/stream/?apikey=' + process.env.ALLUC_API_KEY + '&query=' + encodedInput + '%20' + process.env.QUALITY + '%20' + 'host%3Aopenload.co' + '&count=4&from=0&getmeta=0', function (error, response, body) {
+    request('https://www.alluc.ee/api/search/stream/?apikey=' + process.env.ALLUC_API_KEY + '&query=' + tvInfo.name + '%20' + process.env.QUALITY + '%20' + 'host%3Aopenload.co' + '&count=4&from=0&getmeta=0', function (error, response, body) {
       // Simple JSON parse from the request
       var parsedBody = JSON.parse(body)
 
@@ -83,13 +79,14 @@ app.get('/watch-tv-show/:id', function (req, res) {
 
       console.log('LINKS: ' + links) // Logging
 
-      res.render('watch', { // Render the watch page and pass some variables
+      res.render('watchTvShow', { // Render the watch page and pass some variables
         link1: links[0],
         link2: links[1],
         link3: links[2],
         link4: links[3],
         title: 'Dionysus',
         streamsError: streamsError,
+        tvInfo: tvInfo,
         page: 'tvShows'
       })
     })

@@ -19,24 +19,28 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
 
+          <li class="nav-item <% if (page == 'tvShows'){ %> active<% } %>">
+            <a class="nav-link" href="/tv-shows">TV Shows<% if (page == "tvShows"){ %> <span class="sr-only">(current)</span><% } %></a>
+          </li>
+          
           <li class="nav-item <% if (page == 'movies'){ %> active<% } %>">
             <a class="nav-link" href="/movies">Movies<% if (page == "movies"){ %> <span class="sr-only">(current)</span><% } %></a>
           </li>
 
-          <li class="nav-item <% if (page == 'tvShows'){ %> active<% } %>">
-            <a class="nav-link" href="/tv-shows">TV Shows<% if (page == "tvShows"){ %> <span class="sr-only">(current)</span><% } %></a>
-          </li>
+
         </ul>
-        <% if (page == "tvShows"){ %>
-        <form action="/search-tv-shows/submit" method="post" class="form-inline my-2 my-lg-0">
-          <input class="form-control mr-sm-2" name="searchTvShows" type="search" placeholder="Search TV Shows..." aria-label="Search TV Shows">
-          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-        </form>
-        <% } else { %>
+        <% if (page === 'movies'){ %>
           <form action="/search-movies/submit" method="post" class="form-inline my-2 my-lg-0">
             <input class="form-control mr-sm-2" name="searchMovies" type="search" placeholder="Search Movies..." aria-label="Search Movies">
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
           </form>
+        <% } else { %>
+          <form action="/search-tv-shows/submit" method="post" class="form-inline my-2 my-lg-0">
+            <input class="form-control mr-sm-2" name="searchTvShows" type="search" placeholder="Search TV Shows..." aria-label="Search TV Shows">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+          </form>
+
+
         <% } %>
 
 

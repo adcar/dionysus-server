@@ -6,11 +6,11 @@
           <div class="col">
             <div id="accordion" role="tablist">
               <% for (let i = 1; i < tvInfo.seasons.length; i++){ %>
-              <div class="card">
+              <div class="card season-selector">
                 <div class="card-header" role="tab" id="headingOne">
                   <h5 class="mb-0">
-                    <a data-toggle="collapse" href="#collapse<%= i %>" aria-expanded="true" aria-controls="collapseOne">
-                      Season <%= i %> <!-- Good 'indexes start with 0' meme right here EDIT: OR NOT -->
+                    <a data-toggle="collapse" href="#collapse<%= i %>" aria-expanded="true" aria-controls="collapse<%= i %>">
+                      Season <%= i %>
                     </a>
                   </h5>
                 </div>
@@ -18,7 +18,8 @@
                   <div class="card-body">
                   <ul>
                     <% for (let j = 1; j < tvInfo.seasons[i].episode_count; j++){%>
-                    <li>Episode <%= j %></li> <!-- Another top notch me-me  EDIT: OR NOT-->
+                      <!-- This is a little long... all im doing is checking if the season or episode has more than two character then add a 0 if not... come to think about I couldve just checked if its greater than 10... oops...-->
+                    <li><a href="/watch-episode/<%= tvInfo.name %>%20s<% if (i.toString().length < 2){ %>0<% } %><%= i %>e<% if (j.toString().length < 2){ %>0<% } %><%= j %>">Episode <%= j %></a></li>
                     <% } %>
                   <ul>
                   </div>
@@ -38,7 +39,7 @@
 <style>
 body {
 
-  background-image: linear-gradient(to right, rgba(0,0,0,0.9),rgba(0,0,0,0.6)), url(http://image.tmdb.org/t/p/original<%= tvInfo.backdrop_path %>);
+  background-image: linear-gradient(to left, rgba(0,0,0,0.9),rgba(0,0,0,0.6)), url(http://image.tmdb.org/t/p/original<%= tvInfo.backdrop_path %>);
   background-position: top;
   background-size: cover;
 

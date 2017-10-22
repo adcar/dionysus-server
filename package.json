@@ -4,7 +4,8 @@
   "description": "Self-hosted TV Show and Movie streamer",
   "main": "app.js",
   "scripts": {
-    "test": "node app.js & mocha && ejslint  views/*.ejs views/partials/*.ejs && standard"
+    "test": "node app.js & mocha && ejslint  views/*.ejs views/partials/*.ejs && standard",
+    "start": "node app.js"
   },
   "repository": {
     "type": "git",
@@ -28,6 +29,7 @@
     "env2": "^2.2.0",
     "express": "^4.16.2",
     "moviedb": "^0.2.10",
+    "node-iframe-replacement": "^0.1.1",
     "request": "^2.83.0",
     "urlencode": "^1.1.0"
   },

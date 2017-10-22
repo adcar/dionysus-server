@@ -70,3 +70,6 @@ span.error {
 .season-selector a {
 	color: var(--accent-color);
 }
+.desc {
+	max-width: 37em;
+}

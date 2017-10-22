@@ -3,6 +3,8 @@ const bodyParser = require('body-parser')
 const path = require('path')
 const request = require('request')
 const urlencode = require('urlencode')
+const iframeReplacement = require('node-iframe-replacement');
+
 
 // Pull in config enviroment variables
 require('env2')('./config.env')
@@ -24,6 +26,24 @@ app.use(express.static(__dirname + '/views'))
 
 // Body Parser middleware
 app.use(urlencodedParser = bodyParser.urlencoded({ extended: false }))
+
+// iframe replacement middleware (adds res.merge)
+app.use(iframeReplacement);
+
+app.get('/watch-thevideo/:id', function(req, res){
+    console.log(req.params.id);
+    // respond to this request with our fake-news content embedded within the BBC News home page
+    res.merge('nothingness', {
+        // external url to fetch
+       sourceUrl: 'http://thevideo.me/embed-' + req.params.id + '-640x360.html',
+       // css selector to inject our content into
+       sourcePlaceholder: 'script:nth-of-type(4)',
+       // pass a function here to intercept the source html prior to merging
+       transform: function($, model) { }
+    });
+
+});
+
 
 app.get('/', function (req, res) {
   res.redirect('/tv-shows')
@@ -109,7 +129,7 @@ app.get('/watch-movie/:id', function (req, res) {
 
   tmdb.movieInfo({ id: req.params.id}, (err, movieInfo) => {
     // Concatenation is fun :D
-    request('https://www.alluc.ee/api/search/stream/?apikey=' + process.env.ALLUC_API_KEY + '&query=' + movieInfo.title + '%20' + movieInfo.release_date.substring(0, 4) + "%20" + process.env.QUALITY + '%20' + 'host%3Aopenload.co' + '&count=4&from=0&getmeta=0', function (error, response, body) {
+    request('https://www.alluc.ee/api/search/stream/?apikey=' + process.env.ALLUC_API_KEY + '&query=' + movieInfo.title + '%20' + movieInfo.release_date.substring(0, 4) + '%20' + 'host%3Athevideo.me' + '&count=4&from=0&getmeta=1', function (error, response, body) {
       // Simple JSON parse from the request
       var parsedBody = JSON.parse(body)
 
@@ -117,10 +137,11 @@ app.get('/watch-movie/:id', function (req, res) {
       for (let i = 0; i < 4; i++) { //  Creates an array with everything filled with "" (nothing) rather than undefined. (Undefined will cause node server to crash)
         links.push('')
       }
-
       if (parsedBody['result'].length > 0) {
         for (let i = 0; i < parsedBody['result'].length; i++) {
+
           links[i] = parsedBody['result'][i]['hosterurls'][0]['url'] // Replaces "" with links
+          console.log(parsedBody['result'][i]['hosterurls'])
         }
         var streamsError = '' // Sets the stream error content to nothing
       } else {

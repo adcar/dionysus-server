@@ -1,28 +1,15 @@
 <% include ./partials/header %>
       <!-- Sandbox only allows same origin and scripts -->
 
-    <div class="container extra-padding">
+    <div class="container extra-padding d-flex justify-content-center flex-column align-items-center">
 
-      <div class="row align-items-center">
-        <div class="col">
-          <div class="iframe-wrapper">
-            <iframe width="336" height="189" src="<%= link1 %>" frameborder="0" allowfullscreen sandbox="allow-same-origin allow-scripts"></iframe>
-          </div>
-          <div class="iframe-wrapper">
-            <iframe width="336" height="189" src="<%= link2 %>" frameborder="0" allowfullscreen sandbox="allow-same-origin allow-scripts"></iframe>
-          </div>
-          <div class="iframe-wrapper">
-            <iframe width="336" height="189" src="<%= link3 %>" frameborder="0" allowfullscreen sandbox="allow-same-origin allow-scripts"></iframe>
-          </div>
-          <div class="iframe-wrapper">
-            <iframe width="336" height="189" src="<%= link4 %>" frameborder="0" allowfullscreen sandbox="allow-same-origin allow-scripts"></iframe>
-          </div>
-        </div>
 
-        <div class="col">
           <h1><%= movieInfo.title %></h1>
-          <p><%= movieInfo.overview %></p>
-        </div>
+          <p class="desc"><%= movieInfo.overview %></p>
+          <div class="embed-responsive embed-responsive-16by9">
+            <iframe src="/watch-thevideo/<%= link1.substring(20) %>" frameborder="0" allowfullscreen sandbox="allow-same-origin allow-scripts"></iframe>
+          </div>
+
       </div>
       <!-- This can probably be converted into a EJS loop (would requuire app.js modification as well) -->
 

@@ -4,7 +4,7 @@
   "description": "Self-hosted TV Show and Movie streamer",
   "main": "app.js",
   "scripts": {
-    "test": "node app.js & mocha && ejslint  views/*.ejs views/partials/*.ejs && standard",
+    "test": "ejslint views/*.ejs views/partials/*.ejs && standard",
     "start": "node app.js"
   },
   "repository": {

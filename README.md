@@ -1,5 +1,18 @@
 # Dionysus 
-[![Build Status](https://travis-ci.org/MD5HashBrowns/dionysus.svg?branch=master)](https://travis-ci.org/MD5HashBrowns/dionysus) [![dependencies Status](https://david-dm.org/md5hashbrowns/dionysus/status.svg)](https://david-dm.org/md5hashbrowns/dionysus) [![devDependencies Status](https://david-dm.org/md5hashbrowns/dionysus/dev-status.svg)](https://david-dm.org/md5hashbrowns/dionysus?type=dev)
+[![travis][travis-img]][travis-url] [![david][david-img]][david-url] [![david dev][david-dev-img]][david-dev-url] [![standard style][standard-img]][standard-url]
+
+
+[david-img]: https://img.shields.io/david/md5hashbrowns/dionysus.svg?style=flat-square
+[david-url]: https://david-dm.org/md5hashbrowns/dionysus
+
+[david-dev-img]: https://img.shields.io/david/dev/md5hashbrowns/dionysus.svg?style=flat-square
+[david-dev-url]: https://david-dm.org/md5hashbrowns/dionysus?type=dev
+
+[travis-img]: https://img.shields.io/travis/MD5HashBrowns/dionysus.svg?style=flat-square
+[travis-url]: https://travis-ci.org/MD5HashBrowns/dionysus/
+
+[standard-img]: https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat-square
+[standard-url]: https://standardjs.com
 
 Dionysus is a Self-hosted TV Show and Movie streamer
 

@@ -1,5 +1,5 @@
 # Dionysus 
-[![Build Status](https://travis-ci.org/MD5HashBrowns/dionysus.svg?branch=master)](https://travis-ci.org/MD5HashBrowns/dionysus) [![dependencies Status](https://david-dm.org/md5hashbrowns/dionysus/status.svg)](https://david-dm.org/md5hashbrowns/dionysus) [![devDependencies Status](https://david-dm.org/md5hashbrowns/dionysus/dev-status.svg)](https://david-dm.org/md5hashbrowns/dionysus?type=dev)
+[![Travis](https://img.shields.io/travis/MD5HashBrowns/dionysus.svg?style=flat-square)]() [![David](https://img.shields.io/david/md5hashbrowns/dionysus.svg?style=flat-square)]() [![David](https://img.shields.io/david/dev/md5hashbrowns/dionysus.svg?style=flat-square)]() [![https://standardjs.com/](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat-square)]()
 
 Dionysus is a Self-hosted TV Show and Movie streamer
 

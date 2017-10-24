@@ -1,3 +1,13 @@
+// TODO:
+// Modularize code into seperate files
+// Seperate API Calls to search for Google Docs, then openload, then thevideo.me. Put them all in arrays then present them to end user.
+// Make sure everything is responsive, including iframes and fanart backgrounds.
+// Utilize Multi Search, to be able to search for movies and TV shows at the same time.
+// Episodes should have the name of the episode on the list (Instead of episode number). When clicking on a specific episode you should get a page similiar to the watch movie page. Maybe some kind of back button and/or the name of the show that you can click on to and go back to main page.
+// NOTE: IMDB HAS SUPPORT FOR tvEpisodeInfo, which uses the id of the show as well as the season and episode number. I will be using this to accomplish the aboe task.
+// Slideshow on main TV Show and Movies page. One slideshow for each genre. Similiar to Netflix layout.
+// Trakt integration, to allow users to save movies. Trakt doesn't have fanart so I will still utilize TMDB for the main API.
+
 const express = require('express')
 const bodyParser = require('body-parser')
 const path = require('path')
@@ -16,14 +26,19 @@ if (process.env.TMDB_API_KEY === 'INSERT_TMDB_API_KEY_HERE') {
   throw Error('You have not entered your Trakt ID and/or Trakt Secret in config.env. Please visit https://trakt.tv/oauth/applications/new to create a Trakt app and get these credientials')
 }
 
+// Pull in tmdb and set API key.
 const tmdb = require('moviedb')(process.env.TMDB_API_KEY)
 
+// Set express to app
 const app = express()
+// Set viewing engine to ejs
 app.set('view engine', 'ejs')
+// Set the path to views directory.
 app.set('views', path.join(__dirname, 'views'))
+// Set the static directory for express. This is needed for static content like CSS and JS. Could be changed to something else for a seperate location of CSS/JS/IMG etc.
 app.use(express.static(path.join(__dirname, '/views')))
 
-// Body Parser middleware
+// Body Parser middleware. Needed for capturing data from POST requests.
 app.use(bodyParser.urlencoded({ extended: false }))
 
 // iframe replacement middleware (adds res.merge)
@@ -42,14 +57,14 @@ app.get('/watch-thevideo/:id', function (req, res) {
   })
 })
 
-app.get('/', function (req, res) {
+app.get('/', function (req, res) { // For now I just have a redirect going to TV Shows. I could possibly have a page that shows both movies and TV Shows, then lets you pick between them.
   res.redirect('/tv-shows')
 })
 
 // TMDb
 tmdb.miscPopularMovies((err, movies) => {
   if (err) {
-    console.log("TMDB couldn't get Popular Movies")
+    console.log("TMDb couldn't get Popular Movies")
   }
   // Get movie page
   app.get('/movies', function (req, res) {
@@ -63,7 +78,7 @@ tmdb.miscPopularMovies((err, movies) => {
 
 tmdb.miscPopularTvs((err, tvShows) => {
   if (err) {
-    console.log("TMDB couldn't get Popular TV Shows")
+    console.log("TMDb couldn't get Popular TV Shows")
   }
   // Get TV Shows page
   app.get('/tv-shows', function (req, res) {
@@ -74,12 +89,11 @@ tmdb.miscPopularTvs((err, tvShows) => {
     })
   })
 })
-
 // NOTE: Instead of having two watch gets I could have one and check whether it's a movie or not based on it's ID, they could render either watchMovie or watchTvShow. But I mean, whos got time for that.
 app.get('/watch-tv-show/:id', function (req, res) {
   tmdb.tvInfo({id: req.params.id}, (err, tvInfo) => {
     if (err) {
-      console.log("TMDB Couldn't retrieve TV Show info")
+      console.log("TMDb Couldn't retrieve TV Show info")
     }
     res.render('watchTvShow', { // Render the watch page and pass some variables
       title: 'Dionysus',
@@ -89,6 +103,7 @@ app.get('/watch-tv-show/:id', function (req, res) {
   })
 })
 
+// The watch episode page should use TMDb instead.
 app.get('/watch-episode/:id', function (req, res) {
   // I must directly interact with Alluc API via `request` due to lack of npm module
   // Concatenation is fun :D
@@ -131,7 +146,7 @@ app.get('/watch-episode/:id', function (req, res) {
 app.get('/watch-movie/:id', function (req, res) {
   tmdb.movieInfo({id: req.params.id}, (err, movieInfo) => {
     if (err) {
-      console.log("TMDB Couldn't retrieve movie info")
+      console.log("TMDb Couldn't retrieve movie info")
     }
     // Concatenation is fun :D
     request('https://www.alluc.ee/api/search/stream/?apikey=' + process.env.ALLUC_API_KEY + '&query=' + movieInfo.title + '%20' + movieInfo.release_date.substring(0, 4) + '%20' + 'host%3Athevideo.me' + '&count=4&from=0&getmeta=1', function (error, response, body) {
@@ -176,7 +191,7 @@ app.get('/search-movies/:id', function (req, res) {
   var search = req.params.id
   tmdb.searchMovie({ query: search }, (err, response) => {
     if (err) {
-      console.log("TMDB Couldn't search for movies")
+      console.log("TMDb Couldn't search for movies")
     }
     res.render('searchMovies', {
       title: search,
@@ -194,7 +209,7 @@ app.get('/search-tv-shows/:id', function (req, res) {
   var search = req.params.id
   tmdb.searchTv({ query: search }, (err, response) => {
     if (err) {
-      console.log("TMDB Couldn't search for TV Shows")
+      console.log("TMDb Couldn't search for TV Shows")
     }
     res.render('searchTvShows', {
       title: search,

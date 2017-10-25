@@ -3,7 +3,9 @@
 	--grey-800: #424242;
 	--red-900: #B71C1C;
 	--red-700: #D32F2F;
-	--accent-color: var(--red-900);
+		--red-500: #F44336;
+	--accent-color: var(--red-500);
+
 
 }
 
@@ -19,7 +21,7 @@
   font-size: 1.3em;
 }
 .btn-primary {
-	background-color: var(--red-900);
+	background-color: var(--red-500);
 	border: 0;
 }
 .btn-primary:hover {
@@ -50,6 +52,7 @@
 }
 body {
 	background-color: var(--grey-900);
+	min-height: 100vh;
 }
 .extra-padding {
 	padding: 1rem;
@@ -67,8 +70,11 @@ span.error {
   font-size: 3em;
 }
 
-.season-selector a {
+.season-selector li a {
 	color: var(--accent-color);
+}
+.season-selector a {
+	color: white;
 }
 .desc {
 	max-width: 37em;

@@ -7,7 +7,7 @@
 // NOTE: IMDB HAS SUPPORT FOR tvEpisodeInfo, which uses the id of the show as well as the season and episode number. I will be using this to accomplish the aboe task.
 // Slideshow on main TV Show and Movies page. One slideshow for each genre. Similiar to Netflix layout.
 // Trakt integration, to allow users to save movies. Trakt doesn't have fanart so I will still utilize TMDB for the main API.
-
+// Convert Everything into promises. I could use either Trakt combined with TMDb (fanart) or I could use promises wrapper for TMDb.
 const express = require('express')
 const bodyParser = require('body-parser')
 const path = require('path')
@@ -98,6 +98,7 @@ app.get('/watch-tv-show/:id', function (req, res) {
     res.render('watchTvShow', { // Render the watch page and pass some variables
       title: 'Dionysus',
       tvInfo: tvInfo,
+      // episode: info,
       page: 'tvShows'
     })
   })

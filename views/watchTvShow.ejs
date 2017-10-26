@@ -19,7 +19,7 @@
                   <ul>
                     <% for (let j = 1; j < tvInfo.seasons[i].episode_count; j++){%>
                       <!-- This is a little long... all im doing is checking if the season or episode has more than two character then add a 0 if not... come to think about I couldve just checked if its greater than 10... oops...-->
-                    <li><a href="/watch-episode/<%= tvInfo.name %>%20s<% if (i.toString().length < 2){ %>0<% } %><%= i %>e<% if (j.toString().length < 2){ %>0<% } %><%= j %>">Episode <%= j %></a></li>
+                    <li><a href="/watch-episode/<%= tvInfo.id %>/<%= i %>/<%= j %>/<%= tvInfo.name %>">Episode <%= j %></a></li>
                     <% } %>
                   <ul>
                   </div>

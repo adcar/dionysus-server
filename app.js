@@ -92,6 +92,7 @@ tmdb.miscPopularTvs((err, tvShows) => {
 // NOTE: Instead of having two watch gets I could have one and check whether it's a movie or not based on it's ID, they could render either watchMovie or watchTvShow. But I mean, whos got time for that.
 app.get('/watch-tv-show/:id', function (req, res) {
   tmdb.tvInfo({id: req.params.id}, (err, tvInfo) => {
+    console.log(tvInfo)
     if (err) {
       console.log("TMDb Couldn't retrieve TV Show info")
     }
@@ -105,44 +106,62 @@ app.get('/watch-tv-show/:id', function (req, res) {
 })
 
 // The watch episode page should use TMDb instead.
-app.get('/watch-episode/:id', function (req, res) {
-  // I must directly interact with Alluc API via `request` due to lack of npm module
-  // Concatenation is fun :D
-  request('https://www.alluc.ee/api/search/stream/?apikey=' + process.env.ALLUC_API_KEY + '&query=' + urlencode(req.params.id) + '%20' + process.env.QUALITY + '%20' + 'host%3Aopenload.co' + '&count=4&from=0&getmeta=0', function (error, response, body) {
-    if (error) {
-      console.log('Alluc API request for episode failed')
+app.get('/watch-episode/:id/:season/:episode/:name', function (req, res) {
+  console.log(req.params.id)
+  tmdb.tvEpisodeInfo({id: req.params.id, season_number: req.params.episode, episode_number: req.params.episode}, (err, episodeInfo) => {
+    if (err) {
+      console.log("tmdb couldn't get episode info")
+      console.log(err)
     }
-    // Simple JSON parse from the request
-
-    var parsedBody = JSON.parse(body)
-
-    var links = [] // Initialize links array
-    for (let i = 0; i < 4; i++) { //  Creates an array with everything filled with "" (nothing) rather than undefined. (Undefined will cause node server to crash)
-      links.push('')
+    console.log(episodeInfo.name)
+    var seasonNum = req.params.season
+    var episodeNum = req.params.episode
+    if (seasonNum < 10) {
+      seasonNum = '0' + seasonNum.toString()
+    }
+    if (episodeNum < 10) {
+      episodeNum = '0' + episodeNum.toString()
     }
 
-    if (parsedBody['result'].length > 0) {
-      for (let i = 0; i < parsedBody['result'].length; i++) {
-        links[i] = parsedBody['result'][i]['hosterurls'][0]['url'] // Replaces "" with links
+    console.log('https://www.alluc.ee/api/search/stream/?apikey=' + process.env.ALLUC_API_KEY + '&query=' + urlencode(req.params.name) + '%20' + 'S' + seasonNum + 'E' + episodeNum + '%20' + process.env.QUALITY + '%20' + 'host%3Aopenload.co' + '&count=4&from=0&getmeta=0')
+    request('https://www.alluc.ee/api/search/stream/?apikey=' + process.env.ALLUC_API_KEY + '&query=' + urlencode(req.params.name) + '%20' + 'S' + seasonNum + 'E' + episodeNum + '%20' + process.env.QUALITY + '%20' + 'host%3Aopenload.co' + '&count=4&from=0&getmeta=0', function (error, response, body) {
+      if (error) {
+        console.log('Alluc API request for episode failed')
       }
-      var streamsError = '' // Sets the stream error content to nothing
-    } else {
-      console.log("ERR: There's no streams available") // Logging
-      streamsError = 'Sorry, there are no streams available for this TV Show :(' // Gives stream error some content
-    }
+      // Simple JSON parse from the request
 
-    console.log('LINKS: ' + links) // Logging
-    res.render('watchEpisode', {
-      link1: links[0],
-      link2: links[1],
-      link3: links[2],
-      link4: links[3],
-      title: 'Dionysus',
-      page: 'tvShows',
-      streamsError
+      var parsedBody = JSON.parse(body)
+
+      var links = [] // Initialize links array
+      for (let i = 0; i < 4; i++) { //  Creates an array with everything filled with "" (nothing) rather than undefined. (Undefined will cause node server to crash)
+        links.push('')
+      }
+
+      if (parsedBody['result'].length > 0) {
+        for (let i = 0; i < parsedBody['result'].length; i++) {
+          links[i] = parsedBody['result'][i]['hosterurls'][0]['url'] // Replaces "" with links
+        }
+        var streamsError = '' // Sets the stream error content to nothing
+      } else {
+        console.log("ERR: There's no streams available") // Logging
+        streamsError = 'Sorry, there are no streams available for this TV Show :(' // Gives stream error some content
+      }
+
+      console.log('LINKS: ' + links) // Logging
+      res.render('watchEpisode', {
+        link1: links[0],
+        link2: links[1],
+        link3: links[2],
+        link4: links[3],
+        title: 'Dionysus',
+        page: 'tvShows',
+        streamsError
+      })
     })
   })
 })
+  // I must directly interact with Alluc API via `request` due to lack of npm module
+  // Concatenation is fun :D
 
 app.get('/watch-movie/:id', function (req, res) {
   tmdb.movieInfo({id: req.params.id}, (err, movieInfo) => {

@@ -113,7 +113,6 @@ app.get('/watch-episode/:id/:season/:episode/:name', function (req, res) {
       console.log("tmdb couldn't get episode info")
       console.log(err)
     }
-    console.log(episodeInfo.name)
     var seasonNum = req.params.season
     var episodeNum = req.params.episode
     if (seasonNum < 10) {

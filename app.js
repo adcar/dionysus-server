@@ -104,7 +104,6 @@ app.get('/watch-episode/:id/:season/:episode/:name', function (req, res) {
   tmdb.tvEpisodeInfo({id: req.params.id, season_number: req.params.episode, episode_number: req.params.episode}, (err, episodeInfo) => {
     if (err) {
       console.log("TMDb couldn't retrieve episode info")
-      console.log(err)
     }
 
     var seasonNum = req.params.season

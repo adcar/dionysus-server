@@ -1,10 +1,7 @@
 // TODO:
 // Modularize code into seperate files
-// Seperate API Calls to search for Google Docs, then openload, then thevideo.me. Put them all in arrays then present them to end user.
-// Make sure everything is responsive, including iframes and fanart backgrounds.
 // Utilize Multi Search, to be able to search for movies and TV shows at the same time.
 // Episodes should have the name of the episode on the list (Instead of episode number). When clicking on a specific episode you should get a page similiar to the watch movie page. Maybe some kind of back button and/or the name of the show that you can click on to and go back to main page.
-// NOTE: IMDB HAS SUPPORT FOR tvEpisodeInfo, which uses the id of the show as well as the season and episode number. I will be using this to accomplish the aboe task.
 // Slideshow on main TV Show and Movies page. One slideshow for each genre. Similiar to Netflix layout.
 // Trakt integration, to allow users to save movies. Trakt doesn't have fanart so I will still utilize TMDB for the main API.
 // Convert Everything into promises. I could use either Trakt combined with TMDb (fanart) or I could use promises wrapper for TMDb.
@@ -45,15 +42,13 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(iframeReplacement)
 
 app.get('/watch-thevideo/:id', function (req, res) {
-  console.log(req.params.id)
-    // respond to this request with our fake-news content embedded within the BBC News home page
   res.merge('nothingness', {
         // external url to fetch
     sourceUrl: 'http://thevideo.me/embed-' + req.params.id + '-640x360.html',
        // css selector to inject our content into
     sourcePlaceholder: 'script:nth-of-type(4)',
        // pass a function here to intercept the source html prior to merging
-    transform: function ($, model) { }
+    transform: null
   })
 })
 
@@ -92,7 +87,6 @@ tmdb.miscPopularTvs((err, tvShows) => {
 // NOTE: Instead of having two watch gets I could have one and check whether it's a movie or not based on it's ID, they could render either watchMovie or watchTvShow. But I mean, whos got time for that.
 app.get('/watch-tv-show/:id', function (req, res) {
   tmdb.tvInfo({id: req.params.id}, (err, tvInfo) => {
-    console.log(tvInfo)
     if (err) {
       console.log("TMDb Couldn't retrieve TV Show info")
     }
@@ -107,12 +101,12 @@ app.get('/watch-tv-show/:id', function (req, res) {
 
 // The watch episode page should use TMDb instead.
 app.get('/watch-episode/:id/:season/:episode/:name', function (req, res) {
-  console.log(req.params.id)
   tmdb.tvEpisodeInfo({id: req.params.id, season_number: req.params.episode, episode_number: req.params.episode}, (err, episodeInfo) => {
     if (err) {
-      console.log("tmdb couldn't get episode info")
+      console.log("TMDb couldn't retrieve episode info")
       console.log(err)
     }
+
     var seasonNum = req.params.season
     var episodeNum = req.params.episode
     if (seasonNum < 10) {
@@ -122,8 +116,8 @@ app.get('/watch-episode/:id/:season/:episode/:name', function (req, res) {
       episodeNum = '0' + episodeNum.toString()
     }
 
-    console.log('https://www.alluc.ee/api/search/stream/?apikey=' + process.env.ALLUC_API_KEY + '&query=' + urlencode(req.params.name) + '%20' + 'S' + seasonNum + 'E' + episodeNum + '%20' + process.env.QUALITY + '%20' + 'host%3Aopenload.co' + '&count=4&from=0&getmeta=0')
-    request('https://www.alluc.ee/api/search/stream/?apikey=' + process.env.ALLUC_API_KEY + '&query=' + urlencode(req.params.name) + '%20' + 'S' + seasonNum + 'E' + episodeNum + '%20' + process.env.QUALITY + '%20' + 'host%3Aopenload.co' + '&count=4&from=0&getmeta=0', function (error, response, body) {
+    // Alluc Openload request
+    request('https://www.alluc.ee/api/search/stream/?apikey=' + process.env.ALLUC_API_KEY + '&query=' + urlencode(req.params.name) + '%20' + 'S' + seasonNum + 'E' + episodeNum + '%20' + process.env.QUALITY + '%20' + 'host%3Aopenload.co%2Cthevideo.me%2Cdocs.google.com' + '&count=20&from=0&getmeta=0', function (error, response, body) {
       if (error) {
         console.log('Alluc API request for episode failed')
       }
@@ -131,14 +125,29 @@ app.get('/watch-episode/:id/:season/:episode/:name', function (req, res) {
 
       var parsedBody = JSON.parse(body)
 
-      var links = [] // Initialize links array
-      for (let i = 0; i < 4; i++) { //  Creates an array with everything filled with "" (nothing) rather than undefined. (Undefined will cause node server to crash)
-        links.push('')
-      }
+      var openloadLinks = [] // Initialize Openload links array
+      var openloadTitles = [] // Initialize Openload titles array
+
+      var thevideoLinks = []
+      var thevideoTitles = []
+
+      var gdocsLinks = []
+      var gdocsTitles = []
 
       if (parsedBody['result'].length > 0) {
         for (let i = 0; i < parsedBody['result'].length; i++) {
-          links[i] = parsedBody['result'][i]['hosterurls'][0]['url'] // Replaces "" with links
+          if (parsedBody['result'][i]['hostername'] === 'openload.co') {
+            openloadLinks[i] = parsedBody['result'][i]['hosterurls'][0]['url']
+            openloadTitles[i] = parsedBody['result'][i]['title']
+          }
+          if (parsedBody['result'][i]['hostername'] === 'thevideo.me') {
+            thevideoLinks[i] = parsedBody['result'][i]['hosterurls'][0]['url']
+            thevideoTitles[i] = parsedBody['result'][i]['title']
+          }
+          if (parsedBody['result'][i]['hostername'] === 'docs.google.com') {
+            gdocsLinks[i] = parsedBody['result'][i]['hosterurls'][0]['url']
+            gdocsTitles[i] = parsedBody['result'][i]['title']
+          }
         }
         var streamsError = '' // Sets the stream error content to nothing
       } else {
@@ -146,61 +155,96 @@ app.get('/watch-episode/:id/:season/:episode/:name', function (req, res) {
         streamsError = 'Sorry, there are no streams available for this TV Show :(' // Gives stream error some content
       }
 
-      console.log('LINKS: ' + links) // Logging
-      res.render('watchEpisode', {
-        link1: links[0],
-        link2: links[1],
-        link3: links[2],
-        link4: links[3],
-        title: 'Dionysus',
-        page: 'tvShows',
-        streamsError
+      // Filters all the non-links out. I'm sure theres a way to avoid this by utilizing some other kind of structure above
+      openloadLinks = openloadLinks.filter(function (n) { return n !== undefined })
+      openloadTitles = openloadTitles.filter(function (n) { return n !== undefined })
+      thevideoLinks = thevideoLinks.filter(function (n) { return n !== undefined })
+      thevideoTitles = thevideoTitles.filter(function (n) { return n !== undefined })
+      gdocsLinks = gdocsLinks.filter(function (n) { return n !== undefined })
+      gdocsTitles = gdocsTitles.filter(function (n) { return n !== undefined })
+      tmdb.tvInfo({id: req.params.id}, (err, tvInfo) => {
+        if (err) {
+          console.log("TMDb Couldn't retrieve TV Info")
+        }
+        res.render('watchEpisode', {
+          openloadLinks: openloadLinks,
+          openloadTitles: openloadTitles,
+          thevideoLinks: thevideoLinks,
+          thevideoTitles: thevideoTitles,
+          gdocsLinks: gdocsLinks,
+          gdocsTitles: gdocsTitles,
+          title: 'Dionysus',
+          page: 'tvShows',
+          episodeInfo: episodeInfo,
+          tvInfo: tvInfo,
+          streamsError: streamsError
+        })
       })
     })
   })
 })
-  // I must directly interact with Alluc API via `request` due to lack of npm module
-  // Concatenation is fun :D
-
 app.get('/watch-movie/:id', function (req, res) {
   tmdb.movieInfo({id: req.params.id}, (err, movieInfo) => {
     if (err) {
       console.log("TMDb Couldn't retrieve movie info")
     }
     // Concatenation is fun :D
-    request('https://www.alluc.ee/api/search/stream/?apikey=' + process.env.ALLUC_API_KEY + '&query=' + movieInfo.title + '%20' + movieInfo.release_date.substring(0, 4) + '%20' + 'host%3Athevideo.me' + '&count=4&from=0&getmeta=1', function (error, response, body) {
+    request('https://www.alluc.ee/api/search/stream/?apikey=' + process.env.ALLUC_API_KEY + '&query=' + movieInfo.title + '%20' + movieInfo.release_date.substring(0, 4) + '%20' + 'host%3Athevideo.me%2Copenload.co%2Cdocs.google.com' + '&count=20&from=0&getmeta=1', function (error, response, body) {
       if (error) {
         console.log('Alluc API request for movie failed')
       }
       // Simple JSON parse from the request
       var parsedBody = JSON.parse(body)
 
-      var links = [] // Initialize links array
-      for (let i = 0; i < 4; i++) { //  Creates an array with everything filled with "" (nothing) rather than undefined. (Undefined will cause node server to crash)
-        links.push('')
-      }
+      var openloadLinks = [] // Initialize Openload links array
+      var openloadTitles = [] // Initialize Openload titles array
+
+      var thevideoLinks = []
+      var thevideoTitles = []
+
+      var gdocsLinks = []
+      var gdocsTitles = []
+
       if (parsedBody['result'].length > 0) {
         for (let i = 0; i < parsedBody['result'].length; i++) {
-          links[i] = parsedBody['result'][i]['hosterurls'][0]['url'] // Replaces "" with links
-          console.log(parsedBody['result'][i]['hosterurls'])
+          if (parsedBody['result'][i]['hostername'] === 'openload.co') {
+            openloadLinks[i] = parsedBody['result'][i]['hosterurls'][0]['url']
+            openloadTitles[i] = parsedBody['result'][i]['title']
+          }
+          if (parsedBody['result'][i]['hostername'] === 'thevideo.me') {
+            thevideoLinks[i] = parsedBody['result'][i]['hosterurls'][0]['url']
+            thevideoTitles[i] = parsedBody['result'][i]['title']
+          }
+          if (parsedBody['result'][i]['hostername'] === 'docs.google.com') {
+            gdocsLinks[i] = parsedBody['result'][i]['hosterurls'][0]['url']
+            gdocsTitles[i] = parsedBody['result'][i]['title']
+          }
         }
         var streamsError = '' // Sets the stream error content to nothing
       } else {
         console.log("ERR: There's no streams available") // Logging
-        streamsError = 'Sorry, there are no streams available for this TV Show / Movie :(' // Gives stream error some content
+        streamsError = 'Sorry, there are no streams available for this Movie :(' // Gives stream error some content
       }
 
-      console.log('LINKS: ' + links) // Logging
+      // Filters all the non-links out. I'm sure theres a way to avoid this by utilizing some other kind of structure above
+      openloadLinks = openloadLinks.filter(function (n) { return n !== undefined })
+      openloadTitles = openloadTitles.filter(function (n) { return n !== undefined })
+      thevideoLinks = thevideoLinks.filter(function (n) { return n !== undefined })
+      thevideoTitles = thevideoTitles.filter(function (n) { return n !== undefined })
+      gdocsLinks = gdocsLinks.filter(function (n) { return n !== undefined })
+      gdocsTitles = gdocsTitles.filter(function (n) { return n !== undefined })
 
-      res.render('watchMovie', { // Render the watch page and pass some variables
-        link1: links[0],
-        link2: links[1],
-        link3: links[2],
-        link4: links[3],
+      res.render('watchMovie', {
+        openloadLinks: openloadLinks,
+        openloadTitles: openloadTitles,
+        thevideoLinks: thevideoLinks,
+        thevideoTitles: thevideoTitles,
+        gdocsLinks: gdocsLinks,
+        gdocsTitles: gdocsTitles,
         title: 'Dionysus',
-        streamsError: streamsError,
+        page: 'movies',
         movieInfo: movieInfo,
-        page: 'movies'
+        streamsError: streamsError
       })
     })
   })

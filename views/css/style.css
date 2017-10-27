@@ -54,6 +54,12 @@ body {
 	background-color: var(--grey-900);
 	min-height: 100vh;
 }
+.source {
+	background-color: transparent;
+	border: 0;
+	color: var(--accent-color);
+	cursor: pointer;
+}
 .extra-padding {
 	padding: 1rem;
 }

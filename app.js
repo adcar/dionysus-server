@@ -12,6 +12,8 @@ const path = require('path')
 const rp = require('request-promise')
 const urlencode = require('urlencode')
 const iframeReplacement = require('node-iframe-replacement')
+const limits = require('limits.js')
+const throttle = limits().within(1000, 3)
 
 // Pull in config enviroment variables
 require('env2')('./config.env')
@@ -29,7 +31,7 @@ const _tmdb = require('moviedb')(process.env.TMDB_API_KEY)
 
 // Promises wrapper
 const tmdb = (m, q) => new Promise((resolve, reject) => {
-  _tmdb[m](q, (err, data) => err ? reject(err) : resolve(data))
+  throttle.push(() => _tmdb[m](q, (err, data) => err ? reject(err) : resolve(data)))
 })
 
 // Set express to app
@@ -87,11 +89,23 @@ tmdb('miscPopularTvs').then(tvShows => {
 tmdb('miscPopularTvs').then(tvShows => {
   app.get('/watch-tv-show/:id', function (req, res) {
     tmdb('tvInfo', {id: req.params.id}).then(tvInfo => {
-      res.render('watchTvShow', {
-        title: 'Dionysus',
-        tvInfo: tvInfo,
-        page: 'tvShows'
+      var promises = []
+      for (let i = 1; i < tvInfo.seasons.length; i++) {
+        promises.push(tmdb('tvSeasonInfo', {id: tvInfo.id, season_number: i}))
+      }
+      Promise.all(promises)
+      .then(seasonInfo => {
+        res.render('watchTvShow', {
+          title: 'Dionysus',
+          seasonInfo: seasonInfo,
+          tvInfo: tvInfo,
+          page: 'tvShows'
+        })
+        console.log(seasonInfo[2])
       })
+      // .catch(err => {
+      //   console.log(err)
+      // })
     })
   })
 })

@@ -28,6 +28,7 @@
     "ejs": "^2.5.7",
     "env2": "^2.2.0",
     "express": "^4.16.2",
+    "limits.js": "^0.1.4",
     "moviedb": "^0.2.10",
     "node-iframe-replacement": "^0.1.1",
     "request": "^2.83.0",

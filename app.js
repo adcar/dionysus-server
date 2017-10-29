@@ -101,7 +101,6 @@ tmdb('miscPopularTvs').then(tvShows => {
           tvInfo: tvInfo,
           page: 'tvShows'
         })
-        console.log(seasonInfo[2])
       })
       // .catch(err => {
       //   console.log(err)
@@ -122,7 +121,7 @@ app.get('/watch-episode/:id/:season/:episode/:name', function (req, res) {
     }
 
     // Alluc Openload request
-    rp('https://www.alluc.ee/api/search/stream/?apikey=' + process.env.ALLUC_API_KEY + '&query=' + urlencode(req.params.name) + '%20' + 'S' + seasonNum + 'E' + episodeNum + '%20' + process.env.QUALITY + '%20' + 'host%3Aopenload.co%2Cthevideo.me%2Cdocs.google.com' + '&count=20&from=0&getmeta=0')
+    rp('https://www.alluc.ee/api/search/stream/?apikey=' + process.env.ALLUC_API_KEY + '&query=' + '%22' + urlencode(req.params.name) + '%22' + '%20' + 'S' + seasonNum + 'E' + episodeNum + '%20' + process.env.QUALITY + '%20' + 'host%3Aopenload.co%2Cthevideo.me%2Cdocs.google.com' + '&count=20&from=0&getmeta=0')
     .then(body => {
       // Simple JSON parse from the request
 
@@ -187,7 +186,7 @@ app.get('/watch-episode/:id/:season/:episode/:name', function (req, res) {
 app.get('/watch-movie/:id', function (req, res) {
   tmdb('movieInfo', {id: req.params.id}).then(movieInfo => {
     // Concatenation is fun :D
-    rp('https://www.alluc.ee/api/search/stream/?apikey=' + process.env.ALLUC_API_KEY + '&query=' + movieInfo.title + '%20' + movieInfo.release_date.substring(0, 4) + '%20' + 'host%3Athevideo.me%2Copenload.co%2Cdocs.google.com' + '&count=20&from=0&getmeta=1')
+    rp('https://www.alluc.ee/api/search/stream/?apikey=' + process.env.ALLUC_API_KEY + '&query=' + '%22' + movieInfo.title + '%22' + '%20' + movieInfo.release_date.substring(0, 4) + '%20' + 'host%3Athevideo.me%2Copenload.co%2Cdocs.google.com' + '&count=20&from=0&getmeta=1')
     .then(body => {
       // Simple JSON parse from the request
       var parsedBody = JSON.parse(body)

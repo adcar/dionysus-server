@@ -77,10 +77,11 @@ span.error {
 }
 
 .season-selector li a {
-	color: var(--accent-color);
+	color: white;
+	line-height: 2em;
 }
 .season-selector a {
-	color: white;
+	color: var(--accent-color);
 }
 .desc {
 	max-width: 37em;

@@ -8,7 +8,8 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const path = require('path')
-const request = require('request')
+// const request = require('request')
+const rp = require('request-promise')
 const urlencode = require('urlencode')
 const iframeReplacement = require('node-iframe-replacement')
 
@@ -24,7 +25,12 @@ if (process.env.TMDB_API_KEY === 'INSERT_TMDB_API_KEY_HERE') {
 }
 
 // Pull in tmdb and set API key.
-const tmdb = require('moviedb')(process.env.TMDB_API_KEY)
+const _tmdb = require('moviedb')(process.env.TMDB_API_KEY)
+
+// Promises wrapper
+const tmdb = (m, q) => new Promise((resolve, reject) => {
+  _tmdb[m](q, (err, data) => err ? reject(err) : resolve(data))
+})
 
 // Set express to app
 const app = express()
@@ -56,12 +62,8 @@ app.get('/', function (req, res) { // For now I just have a redirect going to TV
   res.redirect('/tv-shows')
 })
 
-// TMDb
-tmdb.miscPopularMovies((err, movies) => {
-  if (err) {
-    console.log("TMDb couldn't get Popular Movies")
-  }
-  // Get movie page
+// Movies page
+tmdb('miscPopularMovies').then(movies => {
   app.get('/movies', function (req, res) {
     res.render('movies', {
       title: 'Dionysus',
@@ -71,11 +73,8 @@ tmdb.miscPopularMovies((err, movies) => {
   })
 })
 
-tmdb.miscPopularTvs((err, tvShows) => {
-  if (err) {
-    console.log("TMDb couldn't get Popular TV Shows")
-  }
-  // Get TV Shows page
+// TV Shows page
+tmdb('miscPopularTvs').then(tvShows => {
   app.get('/tv-shows', function (req, res) {
     res.render('tvShows', {
       title: 'Dionysus',
@@ -84,28 +83,21 @@ tmdb.miscPopularTvs((err, tvShows) => {
     })
   })
 })
-// NOTE: Instead of having two watch gets I could have one and check whether it's a movie or not based on it's ID, they could render either watchMovie or watchTvShow. But I mean, whos got time for that.
-app.get('/watch-tv-show/:id', function (req, res) {
-  tmdb.tvInfo({id: req.params.id}, (err, tvInfo) => {
-    if (err) {
-      console.log("TMDb Couldn't retrieve TV Show info")
-    }
-    res.render('watchTvShow', { // Render the watch page and pass some variables
-      title: 'Dionysus',
-      tvInfo: tvInfo,
-      // episode: info,
-      page: 'tvShows'
+
+tmdb('miscPopularTvs').then(tvShows => {
+  app.get('/watch-tv-show/:id', function (req, res) {
+    tmdb('tvInfo', {id: req.params.id}).then(tvInfo => {
+      res.render('watchTvShow', {
+        title: 'Dionysus',
+        tvInfo: tvInfo,
+        page: 'tvShows'
+      })
     })
   })
 })
-
 // The watch episode page should use TMDb instead.
 app.get('/watch-episode/:id/:season/:episode/:name', function (req, res) {
-  tmdb.tvEpisodeInfo({id: req.params.id, season_number: req.params.episode, episode_number: req.params.episode}, (err, episodeInfo) => {
-    if (err) {
-      console.log("TMDb couldn't retrieve episode info")
-    }
-
+  tmdb('tvEpisodeInfo', {id: req.params.id, season_number: req.params.episode, episode_number: req.params.episode}).then(episodeInfo => {
     var seasonNum = req.params.season
     var episodeNum = req.params.episode
     if (seasonNum < 10) {
@@ -116,10 +108,8 @@ app.get('/watch-episode/:id/:season/:episode/:name', function (req, res) {
     }
 
     // Alluc Openload request
-    request('https://www.alluc.ee/api/search/stream/?apikey=' + process.env.ALLUC_API_KEY + '&query=' + urlencode(req.params.name) + '%20' + 'S' + seasonNum + 'E' + episodeNum + '%20' + process.env.QUALITY + '%20' + 'host%3Aopenload.co%2Cthevideo.me%2Cdocs.google.com' + '&count=20&from=0&getmeta=0', function (error, response, body) {
-      if (error) {
-        console.log('Alluc API request for episode failed')
-      }
+    rp('https://www.alluc.ee/api/search/stream/?apikey=' + process.env.ALLUC_API_KEY + '&query=' + urlencode(req.params.name) + '%20' + 'S' + seasonNum + 'E' + episodeNum + '%20' + process.env.QUALITY + '%20' + 'host%3Aopenload.co%2Cthevideo.me%2Cdocs.google.com' + '&count=20&from=0&getmeta=0')
+    .then(body => {
       // Simple JSON parse from the request
 
       var parsedBody = JSON.parse(body)
@@ -161,10 +151,7 @@ app.get('/watch-episode/:id/:season/:episode/:name', function (req, res) {
       thevideoTitles = thevideoTitles.filter(function (n) { return n !== undefined })
       gdocsLinks = gdocsLinks.filter(function (n) { return n !== undefined })
       gdocsTitles = gdocsTitles.filter(function (n) { return n !== undefined })
-      tmdb.tvInfo({id: req.params.id}, (err, tvInfo) => {
-        if (err) {
-          console.log("TMDb Couldn't retrieve TV Info")
-        }
+      tmdb('tvInfo', {id: req.params.id}).then(tvInfo => {
         res.render('watchEpisode', {
           openloadLinks: openloadLinks,
           openloadTitles: openloadTitles,
@@ -182,16 +169,12 @@ app.get('/watch-episode/:id/:season/:episode/:name', function (req, res) {
     })
   })
 })
+
 app.get('/watch-movie/:id', function (req, res) {
-  tmdb.movieInfo({id: req.params.id}, (err, movieInfo) => {
-    if (err) {
-      console.log("TMDb Couldn't retrieve movie info")
-    }
+  tmdb('movieInfo', {id: req.params.id}).then(movieInfo => {
     // Concatenation is fun :D
-    request('https://www.alluc.ee/api/search/stream/?apikey=' + process.env.ALLUC_API_KEY + '&query=' + movieInfo.title + '%20' + movieInfo.release_date.substring(0, 4) + '%20' + 'host%3Athevideo.me%2Copenload.co%2Cdocs.google.com' + '&count=20&from=0&getmeta=1', function (error, response, body) {
-      if (error) {
-        console.log('Alluc API request for movie failed')
-      }
+    rp('https://www.alluc.ee/api/search/stream/?apikey=' + process.env.ALLUC_API_KEY + '&query=' + movieInfo.title + '%20' + movieInfo.release_date.substring(0, 4) + '%20' + 'host%3Athevideo.me%2Copenload.co%2Cdocs.google.com' + '&count=20&from=0&getmeta=1')
+    .then(body => {
       // Simple JSON parse from the request
       var parsedBody = JSON.parse(body)
 
@@ -251,10 +234,7 @@ app.get('/watch-movie/:id', function (req, res) {
 
 app.get('/search-movies/:id', function (req, res) {
   var search = req.params.id
-  tmdb.searchMovie({ query: search }, (err, response) => {
-    if (err) {
-      console.log("TMDb Couldn't search for movies")
-    }
+  tmdb('searchMovie', { query: search }).then(response => {
     res.render('searchMovies', {
       title: search,
       searchResults: response.results,
@@ -269,10 +249,7 @@ app.post('/search-movies/submit', function (req, res) {
 
 app.get('/search-tv-shows/:id', function (req, res) {
   var search = req.params.id
-  tmdb.searchTv({ query: search }, (err, response) => {
-    if (err) {
-      console.log("TMDb Couldn't search for TV Shows")
-    }
+  tmdb('searchTv', { query: search }).then(response => {
     res.render('searchTvShows', {
       title: search,
       searchResults: response.results,

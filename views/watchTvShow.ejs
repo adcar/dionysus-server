@@ -22,7 +22,7 @@ var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
                 <div id="collapse<%= i %>" class="collapse " role="tabpanel" aria-labelledby="heading<%= i %>" data-parent="#accordion" >
                   <div class="card-body">
                   <ul>
-                    <% for (let j = 1; j < tvInfo.seasons[i].episode_count; j++){%>
+                    <% for (let j = 1; j <= tvInfo.seasons[i].episode_count; j++){%>
                       <% /* NOTE: Indexes start with 1 when it comes to `seasonInfo`, so I needed to subtract 1 from both `i` and `j` */ %>
                     <li><a class="btn <% var releaseDate = new Date(seasonInfo[i - 1].episodes[j - 1].air_date); var todayDate = new Date(date); if (seasonInfo[i - 1].episodes[j - 1].air_date == null || todayDate < releaseDate) { %> disabled <% } %>" role="button" <% var releaseDate = new Date(seasonInfo[i - 1].episodes[j - 1].air_date); var todayDate = new Date(date); if (seasonInfo[i - 1].episodes[j - 1].air_date == null || todayDate < releaseDate) { %> aria-disabled="true" <% } %> href="/watch-episode/<%= tvInfo.id %>/<%= i %>/<%= j %>/<%= tvInfo.name %>">S<%= i %>:E<%= j %> <%= seasonInfo[i - 1].episodes[j - 1].name %>  </a></li>
                     <% } %>

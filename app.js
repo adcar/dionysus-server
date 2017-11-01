@@ -145,31 +145,24 @@ app.get('/watch-episode/:id/:season/:episode/:name', function (req, res) {
       if (parsedBody['result'].length > 0) {
         for (let i = 0; i < parsedBody['result'].length; i++) {
           if (parsedBody['result'][i]['hostername'] === 'openload.co') {
-            openloadLinks[i] = parsedBody['result'][i]['hosterurls'][0]['url']
-            openloadTitles[i] = parsedBody['result'][i]['title']
+            openloadLinks.push(parsedBody['result'][i]['hosterurls'][0]['url'])
+            openloadTitles.push(parsedBody['result'][i]['title'])
           }
           if (parsedBody['result'][i]['hostername'] === 'thevideo.me') {
-            thevideoLinks[i] = parsedBody['result'][i]['hosterurls'][0]['url']
-            thevideoTitles[i] = parsedBody['result'][i]['title']
+            thevideoLinks.push(parsedBody['result'][i]['hosterurls'][0]['url'])
+            thevideoTitles.push(parsedBody['result'][i]['title'])
           }
-          if (parsedBody['result'][i]['hostername'] === 'docs.google.com') {
-            gdocsLinks[i] = parsedBody['result'][i]['hosterurls'][0]['url']
-            gdocsTitles[i] = parsedBody['result'][i]['title']
+          if (parsedBody['result'][i]['hostername'] === 'docs.google.com' || parsedBody['result'][i]['hostername'] === 'drive.google.com') {
+            gdocsLinks.push(parsedBody['result'][i]['hosterurls'][0]['url'])
+            gdocsTitles.push(parsedBody['result'][i]['title'])
           }
         }
         var streamsError = '' // Sets the stream error content to nothing
       } else {
         console.log("ERR: There's no streams available") // Logging
-        streamsError = 'Sorry, there are no streams available for this TV Show :(' // Gives stream error some content
+        streamsError = 'Sorry, there are no streams available for this episode :(' // Gives stream error some content
       }
 
-      // Filters all the non-links out. I'm sure theres a way to avoid this by utilizing some other kind of structure above
-      openloadLinks = openloadLinks.filter(function (n) { return n !== undefined })
-      openloadTitles = openloadTitles.filter(function (n) { return n !== undefined })
-      thevideoLinks = thevideoLinks.filter(function (n) { return n !== undefined })
-      thevideoTitles = thevideoTitles.filter(function (n) { return n !== undefined })
-      gdocsLinks = gdocsLinks.filter(function (n) { return n !== undefined })
-      gdocsTitles = gdocsTitles.filter(function (n) { return n !== undefined })
       tmdb('tvInfo', {id: req.params.id}).then(tvInfo => {
         res.render('watchEpisode', {
           openloadLinks: openloadLinks,

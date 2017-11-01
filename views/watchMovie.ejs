@@ -5,7 +5,7 @@
       <div class="row">
         <div class="col-lg-8">
           <div class="embed-responsive embed-responsive-16by9">
-            <iframe class="embed-responsive-item" src="<%= openloadLinks[0] %>" allowfullscreen sandbox="allow-same-origin allow-scripts" onerror="console.log('ERRRORRRR')"></iframe>
+            <iframe class="embed-responsive-item" src="<%= thevideoLinks[0] %>" allowfullscreen sandbox="allow-same-origin allow-scripts" onerror="console.log('ERRRORRRR')"></iframe>
           </div>
 
         </div>
@@ -37,26 +37,6 @@
             </div>
             <% } %>
 
-            <% if (openloadLinks.length > 0) { %>
-            <div class="card season-selector">
-              <div class="card-header" role="tab" id="headingOne">
-                <h5 class="mb-0">
-                  <a data-toggle="collapse" href="#collapseOpenload" aria-expanded="true" aria-controls="collapseOpenload">
-                    Openload
-                  </a>
-                </h5>
-              </div>
-              <div id="collapseOpenload" class="collapse " role="tabpanel" aria-labelledby="headingOpenload" data-parent="#accordion" >
-                <div class="card-body">
-                  <ul>
-                  <% for (let i = 0; i < openloadLinks.length; i++) { %>
-                    <li><button onclick="document.querySelector('iframe').setAttribute('src', '<%= openloadLinks[i] %>')" class="source" data-toggle="tooltip" data-placement="right" title="<%= openloadTitles[i] %>">Openload Link #<%= i + 1%></button></li>
-                  <% } %>
-                </ul>
-                </div>
-              </div>
-            </div>
-            <% } %>
             <% if (thevideoLinks.length > 0) { %>
             <div class="card season-selector">
               <div class="card-header" role="tab" id="headingOne">
@@ -77,6 +57,28 @@
               </div>
             </div>
             <% } %>
+
+            <% if (openloadLinks.length > 0) { %>
+            <div class="card season-selector">
+              <div class="card-header" role="tab" id="headingOne">
+                <h5 class="mb-0">
+                  <a data-toggle="collapse" href="#collapseOpenload" aria-expanded="true" aria-controls="collapseOpenload">
+                    Openload
+                  </a>
+                </h5>
+              </div>
+              <div id="collapseOpenload" class="collapse " role="tabpanel" aria-labelledby="headingOpenload" data-parent="#accordion" >
+                <div class="card-body">
+                  <ul>
+                  <% for (let i = 0; i < openloadLinks.length; i++) { %>
+                    <li><button onclick="document.querySelector('iframe').setAttribute('src', '<%= openloadLinks[i] %>')" class="source" data-toggle="tooltip" data-placement="right" title="<%= openloadTitles[i] %>">Openload Link #<%= i + 1%></button></li>
+                  <% } %>
+                </ul>
+                </div>
+              </div>
+            </div>
+            <% } %>
+
           </div>
 
         </div>

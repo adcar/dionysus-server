@@ -55,7 +55,7 @@ app.get('/watch-thevideo/:id', function (req, res) {
         // external url to fetch
     sourceUrl: 'http://thevideo.me/embed-' + req.params.id + '-640x360.html',
        // css selector to inject our content into
-    sourcePlaceholder: 'script:nth-of-type(4)',
+    sourcePlaceholder: 'script:nth-of-type(5)',
        // pass a function here to intercept the source html prior to merging
     transform: null
   })

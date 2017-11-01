@@ -1,7 +1,8 @@
-
-setInterval(function(){
-    var spans = document.querySelectorAll("span")
-    for (var idk = 0; idk < spans.length; idk++){
-      spans[idk].style.display = "none"
-    }
-}, 5000)
+// I use the variable `idk` to prevent any conflict with other variables.
+window.addEventListener("load", function(){
+  // The not selectors are there to prevent the display:none property to affect the resolution / quality controls.
+  var spans = document.querySelectorAll("span:not(.vjs-control-text):not(.vjs-resolution-button-label)")
+  for (let idk = 0; idk < spans.length; idk++){
+    spans[idk].style.display = "none"
+  }
+})

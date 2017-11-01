@@ -3,6 +3,8 @@
 // Slideshow on main TV Show and Movies page. One slideshow for each genre. Similiar to Netflix layout.
 // Trakt integration, to allow users to save movies. Trakt doesn't have fanart so I will still utilize TMDB for the main API.
 // Add better navigation support for TV Shows and Movies. E.g., a back button.
+// Fix theVideo ads
+// Auto play whatever exists, not just openload[0]
 const express = require('express')
 const bodyParser = require('body-parser')
 const path = require('path')

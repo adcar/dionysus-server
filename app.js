@@ -14,6 +14,7 @@ const urlencode = require('urlencode')
 const iframeReplacement = require('node-iframe-replacement')
 const limits = require('limits.js')
 const throttle = limits().within(1000, 3)
+const removeAccents = require('remove-accents')
 
 // Pull in config enviroment variables
 require('env2')('./config.env')
@@ -95,6 +96,8 @@ tmdb('miscPopularTvs').then(tvShows => {
       }
       Promise.all(promises)
       .then(seasonInfo => {
+        console.log(tvInfo.seasons.length)
+        console.log(seasonInfo[0].episodes[8])
         res.render('watchTvShow', {
           title: 'Dionysus',
           seasonInfo: seasonInfo,
@@ -111,6 +114,9 @@ tmdb('miscPopularTvs').then(tvShows => {
 // The watch episode page should use TMDb instead.
 app.get('/watch-episode/:id/:season/:episode/:name', function (req, res) {
   tmdb('tvEpisodeInfo', {id: req.params.id, season_number: req.params.episode, episode_number: req.params.episode}).then(episodeInfo => {
+    // Some 'sanitization' if you will. Just fixes accents (with library) and gets rid of any special characters. E.g., a dot (.).
+    req.params.name = removeAccents(req.params.name)
+    req.params.name = req.params.name.replace(/[^\w\s]/gi, '')
     var seasonNum = req.params.season
     var episodeNum = req.params.episode
     if (seasonNum < 10) {

@@ -1,10 +1,8 @@
 // TODO:
 // Modularize code into seperate files
-// Utilize Multi Search, to be able to search for movies and TV shows at the same time.
-// Episodes should have the name of the episode on the list (Instead of episode number). When clicking on a specific episode you should get a page similiar to the watch movie page. Maybe some kind of back button and/or the name of the show that you can click on to and go back to main page.
 // Slideshow on main TV Show and Movies page. One slideshow for each genre. Similiar to Netflix layout.
 // Trakt integration, to allow users to save movies. Trakt doesn't have fanart so I will still utilize TMDB for the main API.
-// Convert Everything into promises. I could use either Trakt combined with TMDb (fanart) or I could use promises wrapper for TMDb.
+// Add better navigation support for TV Shows and Movies. E.g., a back button.
 const express = require('express')
 const bodyParser = require('body-parser')
 const path = require('path')
@@ -202,16 +200,16 @@ app.get('/watch-movie/:id', function (req, res) {
       if (parsedBody['result'].length > 0) {
         for (let i = 0; i < parsedBody['result'].length; i++) {
           if (parsedBody['result'][i]['hostername'] === 'openload.co') {
-            openloadLinks[i] = parsedBody['result'][i]['hosterurls'][0]['url']
-            openloadTitles[i] = parsedBody['result'][i]['title']
+            openloadLinks.push(parsedBody['result'][i]['hosterurls'][0]['url'])
+            openloadTitles.push(parsedBody['result'][i]['title'])
           }
           if (parsedBody['result'][i]['hostername'] === 'thevideo.me') {
-            thevideoLinks[i] = parsedBody['result'][i]['hosterurls'][0]['url']
-            thevideoTitles[i] = parsedBody['result'][i]['title']
+            thevideoLinks.push(parsedBody['result'][i]['hosterurls'][0]['url'])
+            thevideoTitles.push(parsedBody['result'][i]['title'])
           }
-          if (parsedBody['result'][i]['hostername'] === 'docs.google.com') {
-            gdocsLinks[i] = parsedBody['result'][i]['hosterurls'][0]['url']
-            gdocsTitles[i] = parsedBody['result'][i]['title']
+          if (parsedBody['result'][i]['hostername'] === 'docs.google.com' || parsedBody['result'][i]['hostername'] === 'drive.google.com') {
+            gdocsLinks.push(parsedBody['result'][i]['hosterurls'][0]['url'])
+            gdocsTitles.push(parsedBody['result'][i]['title'])
           }
         }
         var streamsError = '' // Sets the stream error content to nothing
@@ -219,14 +217,6 @@ app.get('/watch-movie/:id', function (req, res) {
         console.log("ERR: There's no streams available") // Logging
         streamsError = 'Sorry, there are no streams available for this Movie :(' // Gives stream error some content
       }
-
-      // Filters all the non-links out. I'm sure theres a way to avoid this by utilizing some other kind of structure above
-      openloadLinks = openloadLinks.filter(function (n) { return n !== undefined })
-      openloadTitles = openloadTitles.filter(function (n) { return n !== undefined })
-      thevideoLinks = thevideoLinks.filter(function (n) { return n !== undefined })
-      thevideoTitles = thevideoTitles.filter(function (n) { return n !== undefined })
-      gdocsLinks = gdocsLinks.filter(function (n) { return n !== undefined })
-      gdocsTitles = gdocsTitles.filter(function (n) { return n !== undefined })
 
       res.render('watchMovie', {
         openloadLinks: openloadLinks,
@@ -244,34 +234,19 @@ app.get('/watch-movie/:id', function (req, res) {
   })
 })
 
-app.get('/search-movies/:id', function (req, res) {
+app.get('/search/:id', function (req, res) {
   var search = req.params.id
-  tmdb('searchMovie', { query: search }).then(response => {
-    res.render('searchMovies', {
+  tmdb('searchMulti', { query: search }).then(response => {
+    res.render('search', {
       title: search,
       searchResults: response.results,
-      page: 'movies'
+      page: 'null'
     })
   })
 })
 
-app.post('/search-movies/submit', function (req, res) {
-  res.redirect('/search-movies/' + req.body.searchMovies)
-})
-
-app.get('/search-tv-shows/:id', function (req, res) {
-  var search = req.params.id
-  tmdb('searchTv', { query: search }).then(response => {
-    res.render('searchTvShows', {
-      title: search,
-      searchResults: response.results,
-      page: 'tvShows'
-    })
-  })
-})
-
-app.post('/search-tv-shows/submit', function (req, res) {
-  res.redirect('/search-tv-shows/' + req.body.searchTvShows)
+app.post('/search/submit', function (req, res) {
+  res.redirect('/search/' + req.body.search)
 })
 
 app.listen(process.env.PORT, function () {

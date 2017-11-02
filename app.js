@@ -65,7 +65,7 @@ app.get('/', function (req, res) { // For now I just have a redirect going to TV
 })
 
 // Movies page
-tmdb('miscPopularMovies').then(movies => {
+tmdb('miscTopRatedMovies').then(movies => {
   app.get('/movies', function (req, res) {
     res.render('movies', {
       title: 'Dionysus',
@@ -112,10 +112,10 @@ tmdb('miscPopularTvs').then(tvShows => {
 })
 // The watch episode page should use TMDb instead.
 app.get('/watch-episode/:id/:season/:episode/:name', function (req, res) {
-  tmdb('tvEpisodeInfo', {id: req.params.id, season_number: req.params.episode, episode_number: req.params.episode}).then(episodeInfo => {
+  tmdb('tvEpisodeInfo', {id: req.params.id, season_number: req.params.season, episode_number: req.params.episode}).then(episodeInfo => {
     // Some 'sanitization' if you will. Just fixes accents (with library) and gets rid of any special characters. E.g., a dot (.).
     req.params.name = removeAccents(req.params.name)
-    req.params.name = req.params.name.replace(/[^\w\s]/gi, '')
+    req.params.name = req.params.name.replace(/[^\w\s]/gi, ' ') // replaces special chars with space
     var seasonNum = req.params.season
     var episodeNum = req.params.episode
     if (seasonNum < 10) {
@@ -161,7 +161,6 @@ app.get('/watch-episode/:id/:season/:episode/:name', function (req, res) {
         console.log("ERR: There's no streams available") // Logging
         streamsError = 'Sorry, there are no streams available for this episode :(' // Gives stream error some content
       }
-
       tmdb('tvInfo', {id: req.params.id}).then(tvInfo => {
         res.render('watchEpisode', {
           openloadLinks: openloadLinks,
@@ -178,6 +177,12 @@ app.get('/watch-episode/:id/:season/:episode/:name', function (req, res) {
         })
       })
     })
+    .catch(err => {
+      console.log(err)
+    })
+  })
+  .catch(err => {
+    console.log(err)
   })
 })
 
@@ -218,7 +223,6 @@ app.get('/watch-movie/:id', function (req, res) {
         console.log("ERR: There's no streams available") // Logging
         streamsError = 'Sorry, there are no streams available for this Movie :(' // Gives stream error some content
       }
-
       res.render('watchMovie', {
         openloadLinks: openloadLinks,
         openloadTitles: openloadTitles,

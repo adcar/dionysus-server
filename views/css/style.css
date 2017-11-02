@@ -3,17 +3,23 @@
 	--grey-800: #424242;
 	--red-900: #B71C1C;
 	--red-700: #D32F2F;
-		--red-500: #F44336;
+	--red-500: #F44336;
 	--accent-color: var(--red-500);
+	--shadow: 0px 3px 11px rgba(0,0,0,0.5);
 
 
 }
-
+* {
+	color: white;
+}
+.subtext {
+	font-weight: 300;
+}
 .card {
 	margin: 1rem auto;
 	border: 0;
 	background-color: #343a40;
-	box-shadow: 0px 3px 11px rgba(0,0,0,0.5);
+	box-shadow: var(--shadow);
 	color: white;
 }
 
@@ -69,6 +75,10 @@ h1,p {
 }
 iframe {
 	margin: 0 auto;
+
+}
+.embed-responsive {
+	box-shadow: var(--shadow) !important;
 }
 span.error {
 	color: white;

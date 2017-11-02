@@ -1,0 +1,62 @@
+            <% if (gdocsLinks.length > 0) { %>
+            <div class="card season-selector">
+              <div class="card-header" role="tab" id="headingOne">
+                <h5 class="mb-0">
+                  <a data-toggle="collapse" href="#collapseGdocs" aria-expanded="true" aria-controls="collapseGdocs">
+                    Google Drive
+                  </a>
+                </h5>
+              </div>
+              <div id="collapseGdocs" class="collapse " role="tabpanel" aria-labelledby="headingGdocs" data-parent="#accordion" >
+                <div class="card-body">
+                  <ul>
+                  <% for (let i = 0; i < gdocsLinks.length; i++) { %>
+                    <li><button onclick="document.querySelector('iframe').setAttribute('src', '<%= gdocsLinks[i] %>')" class="source" data-toggle="tooltip" data-placement="right" title="<%= gdocsTitles[i] %>">Link #<%= i + 1%></button></li>
+                  <% } %>
+                </ul>
+                </div>
+              </div>
+            </div>
+            <% } %>
+
+            <% if (thevideoLinks.length > 0) { %>
+            <div class="card season-selector">
+              <div class="card-header" role="tab" id="headingOne">
+                <h5 class="mb-0">
+                  <a data-toggle="collapse" href="#collapseGdocs" aria-expanded="true" aria-controls="collapseGdocs">
+                    TheVideo.me
+                  </a>
+                </h5>
+              </div>
+              <div id="collapseGdocs" class="collapse " role="tabpanel" aria-labelledby="headingGdocs" data-parent="#accordion" >
+                <div class="card-body">
+                  <ul>
+                  <% for (let i = 0; i < thevideoLinks.length; i++) { %>
+                    <li><button onclick="document.querySelector('iframe').setAttribute('src', '/watch-thevideo/<%= thevideoLinks[i].substring(20)  %>')" class="source" data-toggle="tooltip" data-placement="right" title="<%= thevideoTitles[i] %>">Link #<%= i + 1%></button></li>
+                  <% } %>
+                </ul>
+                </div>
+              </div>
+            </div>
+            <% } %>
+
+            <% if (openloadLinks.length > 0) { %>
+            <div class="card season-selector">
+              <div class="card-header" role="tab" id="headingOne">
+                <h5 class="mb-0">
+                  <a data-toggle="collapse" href="#collapseOpenload" aria-expanded="true" aria-controls="collapseOpenload">
+                    Openload.co
+                  </a>
+                </h5>
+              </div>
+              <div id="collapseOpenload" class="collapse " role="tabpanel" aria-labelledby="headingOpenload" data-parent="#accordion" >
+                <div class="card-body">
+                  <ul>
+                  <% for (let i = 0; i < openloadLinks.length; i++) { %>
+                    <li><button onclick="document.querySelector('iframe').setAttribute('src', '<%= openloadLinks[i] %>')" class="source" data-toggle="tooltip" data-placement="right" title="<%= openloadTitles[i] %>">Link #<%= i + 1%></button></li>
+                  <% } %>
+                </ul>
+                </div>
+              </div>
+            </div>
+            <% } %>

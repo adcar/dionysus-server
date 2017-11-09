@@ -3,7 +3,9 @@
 	--grey-800: #424242;
 	--red-900: #B71C1C;
 	--red-700: #D32F2F;
+	--red-600: #E53935;
 	--red-500: #F44336;
+	--red-400: #EF5350;
 	--accent-color: var(--red-500);
 	--shadow: 0px 3px 11px rgba(0,0,0,0.5);
 
@@ -26,26 +28,25 @@
 .card-title {
   font-size: 1.3em;
 }
-.btn-primary {
-	background-color: var(--red-500);
-	border: 0;
-}
-.btn-primary:hover {
-	background-color: var(--red-700);
-}
 
-.btn-outline-success {
-	border-color: var(--accent-color);
-	color: var(--accent-color);
+.btn {
+	color: var(--red-500);
 }
-.btn-outline-success:hover {
-	border-color: var(--accent-color);
-	background-color: var(--accent-color);
+.btn:hover {
+	color: var(--red-400);
 }
-.btn-outline-success:focus {
-	border-color: var(--accent-color);
-	background-color: var(--accent-color);
-	box-shadow: 0 0 0 0.2rem rgba(183,28,28, 0.5);
+.btn:focus {
+	color: var(--red-400);
+}
+.btn-raised {
+	margin-top: 1em;
+	background-color: var(--red-500) !important;
+	color: white;
+}
+.btn-raised:hover {
+	margin-top: 1em;
+	background-color: var(--red-600) !important;
+	color: white;
 }
 
 
@@ -95,4 +96,11 @@ span.error {
 }
 .desc {
 	max-width: 37em;
+}
+input {
+	color: white !important;
+	border-color: red !important;
+}
+.form-control {
+	background-image: linear-gradient(to top, var(--accent-color) 2px, rgba(0, 150, 136, 0) 2px), linear-gradient(to top, rgba(0, 0, 0, 0.26) 1px, transparent 1px) !important;
 }

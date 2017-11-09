@@ -23,7 +23,7 @@ var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
                   <div class="card-body">
                   <ul>
                     <% for (let j = 0; j < tvInfo.seasons[i].episode_count; j++){%>
-                    <li><a class="btn <% var releaseDate = new Date(seasonInfo[i].episodes[j].air_date); var todayDate = new Date(date); if (seasonInfo[i].episodes[j].air_date == null || seasonInfo[i].episodes[j].air_date == undefined || todayDate < releaseDate) { %> disabled <% } %>" role="button" <% var releaseDate = new Date(seasonInfo[i].episodes[j].air_date); var todayDate = new Date(date); if (seasonInfo[i].episodes[j].air_date == null || todayDate < releaseDate) { %> aria-disabled="true" <% } %> href="/watch-episode/<%= tvInfo.id %>/<%= i %>/<%= j %>/<%= tvInfo.name %>">S<%= i %>:E<%= j %> "<%= seasonInfo[i].episodes[j].name %>"  </a></li>
+                    <li><a class="btn <% var releaseDate = new Date(seasonInfo[i].episodes[j].air_date); var todayDate = new Date(date); if (seasonInfo[i].episodes[j].air_date == null || seasonInfo[i].episodes[j].air_date == undefined || todayDate < releaseDate) { %> disabled <% } %>" role="button" <% var releaseDate = new Date(seasonInfo[i].episodes[j].air_date); var todayDate = new Date(date); if (seasonInfo[i].episodes[j].air_date == null || todayDate < releaseDate) { %> aria-disabled="true" <% } %> href="/watch-episode/<%= tvInfo.id %>/<%= i %>/<%= j +1 %>/<%= tvInfo.name %>">S<%= i %>:E<%= j + 1%> "<%= seasonInfo[i].episodes[j].name %>"  </a></li>
                     <% } %>
                   </div>
                 </div>

@@ -90,13 +90,16 @@ tmdb('miscPopularTvs').then(tvShows => {
   app.get('/watch-tv-show/:id', function (req, res) {
     tmdb('tvInfo', {id: req.params.id}).then(tvInfo => {
       var promises = []
-      for (let i = 1; i < tvInfo.seasons.length; i++) {
-        promises.push(tmdb('tvSeasonInfo', {id: tvInfo.id, season_number: i}))
+      for (let i = 0; i < tvInfo.seasons.length; i++) {
+        // Here I check to see if the season 0 has a season_number of 0, if it does then I can include specials, if not then add 1.
+        if (tvInfo.seasons[0].season_number === 0) {
+          promises.push(tmdb('tvSeasonInfo', {id: tvInfo.id, season_number: i}))
+        } else {
+          promises.push(tmdb('tvSeasonInfo', {id: tvInfo.id, season_number: i + 1}))
+        }
       }
       Promise.all(promises)
       .then(seasonInfo => {
-        console.log(tvInfo.seasons.length)
-        console.log(seasonInfo[0].episodes[8])
         res.render('watchTvShow', {
           title: 'Dionysus',
           seasonInfo: seasonInfo,

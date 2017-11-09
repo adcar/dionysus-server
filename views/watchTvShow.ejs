@@ -8,9 +8,9 @@ var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
 
         <div class="row ">
           <div class="col">
-
             <div id="accordion" role="tablist">
-              <% for (let i = 1; i < tvInfo.seasons.length; i++){ %>
+              <% for (let i = 0; i < tvInfo.seasons.length; i++){ %>
+                <% if (tvInfo.seasons[0].season_number === 0) { %>
               <div class="card season-selector">
                 <div class="card-header" role="tab" id="headingOne">
                   <h5 class="mb-0">
@@ -22,13 +22,33 @@ var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
                 <div id="collapse<%= i %>" class="collapse " role="tabpanel" aria-labelledby="heading<%= i %>" data-parent="#accordion" >
                   <div class="card-body">
                   <ul>
-                    <% for (let j = 1; j <= tvInfo.seasons[i].episode_count; j++){%>
-                      <% /* NOTE: Indexes start with 1 when it comes to `seasonInfo`, so I needed to subtract 1 from both `i` and `j` */ %>
-                    <li><a class="btn <% var releaseDate = new Date(seasonInfo[i - 1].episodes[j - 1].air_date); var todayDate = new Date(date); if (seasonInfo[i - 1].episodes[j - 1].air_date == null || seasonInfo[i - 1].episodes[j - 1].air_date == undefined || todayDate < releaseDate) { %> disabled <% } %>" role="button" <% var releaseDate = new Date(seasonInfo[i - 1].episodes[j - 1].air_date); var todayDate = new Date(date); if (seasonInfo[i - 1].episodes[j - 1].air_date == null || todayDate < releaseDate) { %> aria-disabled="true" <% } %> href="/watch-episode/<%= tvInfo.id %>/<%= i %>/<%= j %>/<%= tvInfo.name %>">S<%= i %>:E<%= j %> "<%= seasonInfo[i - 1].episodes[j - 1].name %>"  </a></li>
+                    <% for (let j = 0; j < tvInfo.seasons[i].episode_count; j++){%>
+                    <li><a class="btn <% var releaseDate = new Date(seasonInfo[i].episodes[j].air_date); var todayDate = new Date(date); if (seasonInfo[i].episodes[j].air_date == null || seasonInfo[i].episodes[j].air_date == undefined || todayDate < releaseDate) { %> disabled <% } %>" role="button" <% var releaseDate = new Date(seasonInfo[i].episodes[j].air_date); var todayDate = new Date(date); if (seasonInfo[i].episodes[j].air_date == null || todayDate < releaseDate) { %> aria-disabled="true" <% } %> href="/watch-episode/<%= tvInfo.id %>/<%= i %>/<%= j %>/<%= tvInfo.name %>">S<%= i %>:E<%= j %> "<%= seasonInfo[i].episodes[j].name %>"  </a></li>
                     <% } %>
                   </div>
                 </div>
               </div>
+                <% } else { %>
+                  <!-- If humans would just start stuff from 0 this wouldn't be a problem... oh well... -->
+                  <!-- Basically what I'm doing is adding one to certain visible elements, as well as adjusting what's sent to watch-episode. -->
+                  <div class="card season-selector">
+                    <div class="card-header" role="tab" id="headingOne">
+                      <h5 class="mb-0">
+                        <a data-toggle="collapse" href="#collapse<%= i + 1 %>" aria-expanded="true" aria-controls="collapse<%= i  + 1 %>">
+                          Season <%= i + 1 %>
+                        </a>
+                      </h5>
+                    </div>
+                    <div id="collapse<%= i + 1 %>" class="collapse " role="tabpanel" aria-labelledby="heading<%= i + 1 %>" data-parent="#accordion" >
+                      <div class="card-body">
+                      <ul>
+                        <% for (let j = 0; j < tvInfo.seasons[i].episode_count; j++){%>
+                        <li><a class="btn <% var releaseDate = new Date(seasonInfo[i].episodes[j].air_date); var todayDate = new Date(date); if (seasonInfo[i].episodes[j].air_date == null || seasonInfo[i].episodes[j].air_date == undefined || todayDate < releaseDate) { %> disabled <% } %>" role="button" <% var releaseDate = new Date(seasonInfo[i].episodes[j].air_date); var todayDate = new Date(date); if (seasonInfo[i].episodes[j].air_date == null || todayDate < releaseDate) { %> aria-disabled="true" <% } %> href="/watch-episode/<%= tvInfo.id %>/<%= i + 1 %>/<%= j + 1%>/<%= tvInfo.name %>">S<%= i + 1%>:E<%= j + 1%> "<%= seasonInfo[i].episodes[j].name %>"  </a></li>
+                        <% } %>
+                      </div>
+                    </div>
+                  </div>
+                  <% } %>
               <% } %>
             </div>
           </div>
@@ -37,17 +57,12 @@ var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
             <p><%= tvInfo.overview %></p>
           </div>
         </div>
-
-
     </div>
 <style>
 body {
-
   background-image: linear-gradient(to left, rgba(0,0,0,0.9),rgba(0,0,0,0.6)), url(http://image.tmdb.org/t/p/original<%= tvInfo.backdrop_path %>);
   background-position: top;
   background-size: cover;
-
 }
-
 </style>
 <% include ./partials/footer %>

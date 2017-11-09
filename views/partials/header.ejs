@@ -2,15 +2,35 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="initial-scale=1">
+    <meta name="viewport" content="initial-scale=1, width=device-width">
+    <link rel="apple-touch-icon" sizes="57x57" href="/favicon/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/favicon/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/favicon/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/favicon/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/favicon/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/favicon/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/favicon/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/favicon/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192"  href="/favicon/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
+    <link rel="manifest" href="/favicon/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+    <meta name="theme-color" content="#343a40">
     <title><%= title %></title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons">
     <link rel="stylesheet" href="https://unpkg.com/bootstrap-material-design@4.0.0-beta.4/dist/css/bootstrap-material-design.min.css" integrity="sha384-R80DC0KVBO4GSTw+wZ5x2zn2pu4POSErBkf8/fSFhPXHxvHJydT0CSgAP2Yo2r4I" crossorigin="anonymous">
-
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/popper.js@1.12.6/dist/umd/popper.js" integrity="sha384-fA23ZRQ3G/J53mElWqVJEGJzU0sTs+SvzG8fXVWP+kJQ1lwFAOkcUOysnlKJC33U" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/bootstrap-material-design@4.0.0-beta.4/dist/js/bootstrap-material-design.js" integrity="sha384-3xciOSDAlaXneEmyOo0ME/2grfpqzhhTcM4cE32Ce9+8DW/04AGoTACzQpphYGYe" crossorigin="anonymous"></script>
-    <script>$(document).ready(function() { $('body').bootstrapMaterialDesign(); });</script>
+    <script>
+    $(document).ready(function() {
+      $('body').bootstrapMaterialDesign()
+    })
+    </script>
     <link rel="stylesheet" href="/css/style.css">
     <script>
     // Bootstrap tooltip
@@ -18,6 +38,7 @@
       $('[data-toggle="tooltip"]').tooltip()
     })
     </script>
+    <script src="/scripts/truncate.js"></script>
   </head>
   <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -28,14 +49,14 @@
       </button>
 
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
+        <ul class=" mr-auto nav-tabs nav bg-inverse">
 
-          <li class="nav-item <% if (page == 'tvShows'){ %> active<% } %>">
-            <a class="nav-link" href="/tv-shows">TV Shows<% if (page == "tvShows"){ %> <span class="sr-only">(current)</span><% } %></a>
+          <li class="nav-item ">
+            <a class="nav-link <% if (page == 'tvShows'){ %> active<% } %>" href="/tv-shows">TV Shows<% if (page == "tvShows"){ %> <span class="sr-only">(current)</span><% } %></a>
           </li>
 
-          <li class="nav-item <% if (page == 'movies'){ %> active<% } %>">
-            <a class="nav-link" href="/movies">Movies<% if (page == "movies"){ %> <span class="sr-only">(current)</span><% } %></a>
+          <li class="nav-item ">
+            <a class="nav-link <% if (page == 'movies'){ %> active<% } %>" href="/movies">Movies<% if (page == "movies"){ %> <span class="sr-only">(current)</span><% } %></a>
           </li>
         </ul>
           <form action="/search/submit" method="post" class="form-inline my-2 my-lg-0">

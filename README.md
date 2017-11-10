@@ -26,7 +26,7 @@ npm install
 You'll need an API key from [alluc](http://accounts.alluc.com/register.html) and from [tmdb](https://www.themoviedb.org/account/signup). (Both require signups). 
 
 ## Configure
-Make sure to set your API key in the `config.env` file. You can also set other options like port number and quality.
+Create a file called `config.env` in the root of the projects directory. Here you need to set your API keys. You can also set other options like port number and quality. If you would like not to specify quality, leave it as `QUALITY=`. (You will get many more results / streams this way).
 
 ### config.env:
 ```bash

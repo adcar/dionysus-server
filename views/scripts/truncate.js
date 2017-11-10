@@ -1,11 +1,13 @@
 window.addEventListener('load', function () {
+  // Truncate function
   const truncate = (string) => {
-    if (string.length > 19) {
-      return string.substring(0, 19) + '...'
+    if (string.length > 15) {
+      return string.substring(0, 14) + '...'
     } else {
       return string
     }
   }
+
   var titles = document.querySelectorAll('.card-title')
   for (let i = 0; i < titles.length; i++) {
     // This sets the title HTML attribute, so you can hover over and see it. (Plus accessibility)

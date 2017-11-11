@@ -11,6 +11,11 @@
 
 
 }
+ul {
+	list-style-type: none;
+	margin: 0 !important;
+	padding: 0 !important;
+}
 * {
 	color: white;
 }
@@ -78,8 +83,9 @@ body {
 .source {
 	background-color: transparent;
 	border: 0;
-	color: var(--accent-color);
 	cursor: pointer;
+	color: white;
+	font-size: 1em;
 }
 .extra-padding {
 	padding: 1rem;

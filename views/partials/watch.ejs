@@ -11,7 +11,7 @@
                 <div class="card-body">
                   <ul>
                   <% for (let i = 0; i < gdocsLinks.length; i++) { %>
-                    <li><button onclick="document.querySelector('iframe').setAttribute('src', '<%= gdocsLinks[i] %>')" class="source" data-toggle="tooltip" data-placement="right" title="<%= gdocsTitles[i] %>">Link #<%= i + 1%></button></li>
+                    <li><button onclick="document.querySelector('iframe').setAttribute('src', '<%= gdocsLinks[i] %>')" class="source btn"><%= gdocsTitles[i] %></button></li>
                   <% } %>
                 </ul>
                 </div>
@@ -32,7 +32,7 @@
                 <div class="card-body">
                   <ul>
                   <% for (let i = 0; i < thevideoLinks.length; i++) { %>
-                    <li><button onclick="document.querySelector('iframe').setAttribute('src', '/watch-thevideo/<%= thevideoLinks[i].substring(20)  %>')" class="source" data-toggle="tooltip" data-placement="right" title="<%= thevideoTitles[i] %>">Link #<%= i + 1%></button></li>
+                    <li><button onclick="document.querySelector('iframe').setAttribute('src', '/watch-thevideo/<%= thevideoLinks[i].substring(20)  %>')" class="source btn"><%= thevideoTitles[i] %></button></li>
                   <% } %>
                 </ul>
                 </div>
@@ -53,7 +53,7 @@
                 <div class="card-body">
                   <ul>
                   <% for (let i = 0; i < openloadLinks.length; i++) { %>
-                    <li><button onclick="document.querySelector('iframe').setAttribute('src', '<%= openloadLinks[i] %>')" class="source" data-toggle="tooltip" data-placement="right" title="<%= openloadTitles[i] %>">Link #<%= i + 1%></button></li>
+                    <li><button onclick="document.querySelector('iframe').setAttribute('src', '<%= openloadLinks[i] %>')" class="source btn"><%= openloadTitles[i] %></button></li>
                   <% } %>
                 </ul>
                 </div>

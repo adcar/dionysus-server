@@ -8,7 +8,7 @@
           <div class="card" style="width: 154px;">
             <img class="card-img-top" src="http://image.tmdb.org/t/p/w154/<%= movies.results[i].poster_path %>" alt="Card image cap">
             <div class="card-body">
-              <span class="card-title"><%= movies.results[i].title %></span><br>
+              <span class="card-title" title="<%= movies.results[i].title %>"><%= movies.results[i].title %></span><br>
               <a href="/watch-movie/<%= movies.results[i].id %>" class="btn btn-raised btn-primary">Watch</a>
             </div>
           </div>

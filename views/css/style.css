@@ -40,8 +40,8 @@ ul {
 	color: white;
 }
 img.card-img-top {
-	height: 231px;
-	width: auto;
+	
+
 
 }
 .card-title {
@@ -85,7 +85,6 @@ body {
 	border: 0;
 	cursor: pointer;
 	color: white;
-	font-size: 1em;
 }
 .extra-padding {
 	padding: 1rem;

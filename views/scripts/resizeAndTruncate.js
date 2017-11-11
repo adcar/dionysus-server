@@ -44,7 +44,7 @@ const responsive = () => {
       titles[i].innerHTML = truncate(titles[i].innerHTML, 30)
     }
   } else {
-    let cards = document.querySelectorAll('.card')
+    let cards = document.querySelectorAll('.card:not(.season-selector)')
     for (let i = 0; i < cards.length; i++) {
       cards[i].style.width = '154px'
       cards[i].childNodes[1].src = replaceString('http://image.tmdb.org/t/p/w342/', 'http://image.tmdb.org/t/p/w154/', cards[i].childNodes[1].src)

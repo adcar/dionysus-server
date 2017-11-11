@@ -11,11 +11,14 @@ var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
             <div id="accordion" role="tablist">
               <% for (let i = 0; i < tvInfo.seasons.length; i++){ %>
                 <% if (tvInfo.seasons[0].season_number === 0) { %>
+                  <% if (i > 0) { %> <%/* i had to be greater than 0. I do this so that season 0 isn't displayed. I haven't added support for specials yet, and probably never will since you can watch them on YouTube. PRs are welcome if you would like to add specials support, though. */ %>
               <div class="card season-selector">
                 <div class="card-header" role="tab" id="headingOne">
                   <h5 class="mb-0">
                     <a data-toggle="collapse" href="#collapse<%= i %>" aria-expanded="true" aria-controls="collapse<%= i %>">
+                    <% if (i === 0) { %>Season <%= i %> (Specials) <% } else {%>
                       Season <%= i %>
+                      <% } %>
                     </a>
                   </h5>
                 </div>
@@ -28,9 +31,9 @@ var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
                   </div>
                 </div>
               </div>
+              <% } %>
                 <% } else { %>
-                  <!-- If humans would just start stuff from 0 this wouldn't be a problem... oh well... -->
-                  <!-- Basically what I'm doing is adding one to certain visible elements, as well as adjusting what's sent to watch-episode. -->
+
                   <div class="card season-selector">
                     <div class="card-header" role="tab" id="headingOne">
                       <h5 class="mb-0">

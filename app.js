@@ -7,7 +7,6 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const path = require('path')
-// const request = require('request')
 const rp = require('request-promise')
 const urlencode = require('urlencode')
 const iframeReplacement = require('node-iframe-replacement')
@@ -36,10 +35,13 @@ const tmdb = (m, q) => new Promise((resolve, reject) => {
 
 // Set express to app
 const app = express()
+
 // Set viewing engine to ejs
 app.set('view engine', 'ejs')
+
 // Set the path to views directory.
 app.set('views', path.join(__dirname, 'views'))
+
 // Set the static directory for express. This is needed for static content like CSS and JS. Could be changed to something else for a seperate location of CSS/JS/IMG etc.
 app.use(express.static(path.join(__dirname, '/views')))
 
@@ -65,7 +67,7 @@ app.get('/', function (req, res) { // For now I just have a redirect going to TV
 })
 
 // Movies page
-tmdb('miscTopRatedMovies').then(movies => {
+tmdb('discoverMovie', { 'sort_by': 'popularity.desc', 'primary_release_year': '2016' }).then(movies => {
   app.get('/movies', function (req, res) {
     res.render('movies', {
       title: 'Dionysus',
@@ -242,8 +244,8 @@ app.get('/watch-movie/:id', function (req, res) {
   })
 })
 
-app.get('/search/:id', function (req, res) {
-  var search = req.params.id
+app.get('/search', function (req, res) {
+  var search = req.query.q
   tmdb('searchMulti', { query: search }).then(response => {
     res.render('search', {
       title: search,
@@ -254,7 +256,7 @@ app.get('/search/:id', function (req, res) {
 })
 
 app.post('/search/submit', function (req, res) {
-  res.redirect('/search/' + req.body.search)
+  res.redirect('/search?q=' + req.body.search)
 })
 
 app.listen(process.env.PORT, function () {

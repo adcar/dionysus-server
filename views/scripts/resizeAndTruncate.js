@@ -26,11 +26,8 @@ const responsive = () => {
   // Source provider list truncation
   let links = document.querySelectorAll('.source')
   for (let i = 0; i < links.length; i++) {
-    // This sets the title HTML attribute, so you can hover over and see it. (Plus accessibility)
-    links[i].setAttribute('title', links[i].innerHTML)
-
-    // This actually truncates using the function above.
-    links[i].innerHTML = truncate(links[i].innerHTML, 37)
+    // This truncates using the function above.
+    links[i].innerHTML = truncate(links[i].innerHTML, 35)
   }
   // Main pages: tvShows and movies truncation
   let titles = document.querySelectorAll('.card-title')
@@ -41,7 +38,7 @@ const responsive = () => {
       cards[i].childNodes[1].src = replaceString('http://image.tmdb.org/t/p/w154/', 'http://image.tmdb.org/t/p/w342/', cards[i].childNodes[1].src)
       cards[i].childNodes[1].style.height = '375px'
       titles[i].innerHTML = titles[i].title
-      titles[i].innerHTML = truncate(titles[i].innerHTML, 30)
+      titles[i].innerHTML = truncate(titles[i].innerHTML, 28)
     }
   } else {
     let cards = document.querySelectorAll('.card:not(.season-selector)')

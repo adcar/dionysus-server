@@ -1,6 +1,8 @@
 :root {
 	--grey-900: #212121;
 	--grey-800: #424242;
+	--grey: #343a40;
+	--dark-grey: #2B3033;
 	--red-900: #B71C1C;
 	--red-700: #D32F2F;
 	--red-600: #E53935;
@@ -35,14 +37,12 @@ ul {
 .card {
 	margin: 1rem auto;
 	border: 0;
-	background-color: #343a40;
+	background-color: var(--grey);
 	box-shadow: var(--shadow);
 	color: white;
 }
-img.card-img-top {
-	
-
-
+.card-header {
+	background-color: var(--dark-grey);
 }
 .card-title {
   font-size: 1em;

@@ -1,4 +1,5 @@
 :root {
+	--light-grey: #718291;
 	--grey: #343a40;
 	--dark-grey: #2B3033;
 	--darker-grey: #202426;
@@ -19,6 +20,10 @@ ul {
 }
 * {
 	color: white;
+}
+li a.disabled {
+	color:  var(--light-grey) !important;
+	cursor: disabled;
 }
 .nav-tabs .nav-link.active {
 	background-color: transparent !important;
@@ -49,12 +54,20 @@ ul {
 
 .btn {
 	color: var(--red-500);
+	text-overflow: ellipsis;
+	overflow: hidden;
+	display:inline-block;
+	max-width:100%;
+	white-space: nowrap;
 }
 .btn:hover {
 	color: var(--red-400);
 }
 .btn:focus {
 	color: var(--red-400);
+}
+.btn:active {
+	color: var(--red-400) !important;
 }
 .btn-raised {
 	margin-top: 1em;

@@ -7,7 +7,11 @@ var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
       <div class="container extra-padding">
 
         <div class="row ">
-          <div class="col">
+          <div class="col-lg">
+            <h1><%= tvInfo.name %></h1>
+            <p><%= tvInfo.overview %></p>
+          </div>
+          <div class="col-lg">
             <div id="accordion" role="tablist">
               <% for (let i = 0; i < tvInfo.seasons.length; i++){ %>
                 <% if (tvInfo.seasons[0].season_number === 0) { %>
@@ -54,10 +58,6 @@ var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
                   <% } %>
               <% } %>
             </div>
-          </div>
-          <div class="col">
-            <h1><%= tvInfo.name %></h1>
-            <p><%= tvInfo.overview %></p>
           </div>
         </div>
     </div>

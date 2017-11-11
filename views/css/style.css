@@ -1,8 +1,7 @@
 :root {
-	--grey-900: #212121;
-	--grey-800: #424242;
 	--grey: #343a40;
 	--dark-grey: #2B3033;
+	--darker-grey: #202426;
 	--red-900: #B71C1C;
 	--red-700: #D32F2F;
 	--red-600: #E53935;
@@ -77,7 +76,7 @@ ul {
   box-shadow: 0 0 0 0.2rem rgba(183,28,28, 0.5);
 }
 body {
-	background-color: var(--grey-900);
+	background-color: var(--darker-grey);
 	min-height: 100vh;
 }
 .source {

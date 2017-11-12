@@ -36,7 +36,7 @@ QUALITY=720p
 ```
 __Warning__: Don't put your API Key in quotes! The entire world will end.
 
-__Note__:  If you would like not to specify quality, leave it as `QUALITY=`. (You will get many more results / streams this way).
+__Note__:  If you don't want to specify quality, leave it as `QUALITY=`. (You will get many more results / streams this way).
 ### Example config.env
 ```bash
 ALLUC_API_KEY=ckazx56qh20ok5sy6d78tzq700spze6i

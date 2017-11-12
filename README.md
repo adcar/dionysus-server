@@ -50,3 +50,12 @@ npm start
 ```
 
 Then visit [localhost:3000](http://localhost:3000) 
+
+## TODO
+- [ ] Create REST API
+- [ ] Utlize React.js
+- [ ] Modularize app.js into seperate files
+- [ ] Add better navigation
+- [ ] Autoplay whatever exists, not just first openload link
+- [ ] Better discovery section (will require React)
+- [ ] Trakt integration

@@ -35,6 +35,7 @@ PORT=3000
 QUALITY=720p
 ```
 __Warning__: Don't put your API Key in quotes! The entire world will end.
+
 __Note__:  If you would like not to specify quality, leave it as `QUALITY=`. (You will get many more results / streams this way).
 ### Example config.env
 ```bash

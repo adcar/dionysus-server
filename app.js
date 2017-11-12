@@ -103,7 +103,7 @@ tmdb('miscPopularTvs').then(tvShows => {
       Promise.all(promises)
       .then(seasonInfo => {
         res.render('watchTvShow', {
-          title: 'Dionysus',
+          title: tvInfo.name + ' - Dionysus',
           seasonInfo: seasonInfo,
           tvInfo: tvInfo,
           page: 'tvShows'
@@ -174,7 +174,7 @@ app.get('/watch-episode/:id/:season/:episode/:name', function (req, res) {
           thevideoTitles: thevideoTitles,
           gdocsLinks: gdocsLinks,
           gdocsTitles: gdocsTitles,
-          title: 'Dionysus',
+          title: tvInfo.name + ' S' + req.params.season + ':E' + req.params.episode + ' - Dionysus',
           page: 'tvShows',
           episodeInfo: episodeInfo,
           tvInfo: tvInfo,
@@ -235,7 +235,7 @@ app.get('/watch-movie/:id', function (req, res) {
         thevideoTitles: thevideoTitles,
         gdocsLinks: gdocsLinks,
         gdocsTitles: gdocsTitles,
-        title: 'Dionysus',
+        title: movieInfo.title + ' - Dionysus',
         page: 'movies',
         movieInfo: movieInfo,
         streamsError: streamsError
@@ -248,7 +248,7 @@ app.get('/search', function (req, res) {
   var search = req.query.q
   tmdb('searchMulti', { query: search }).then(response => {
     res.render('search', {
-      title: search,
+      title: search + ' - Dionysus Search',
       searchResults: response.results,
       page: 'null'
     })

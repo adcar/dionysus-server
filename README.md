@@ -26,8 +26,7 @@ npm install
 You'll need an API key from [alluc](http://accounts.alluc.com/register.html) and from [tmdb](https://www.themoviedb.org/account/signup). (Both require signups). 
 
 ## Configure
-Create a file called `config.env` in the root of the projects directory. Here you need to set your API keys. You can also set other options like port number and quality. If you would like not to specify quality, leave it as `QUALITY=`. (You will get many more results / streams this way).
-
+Create a file called `config.env` in the root of the projects directory. Here you need to set your API keys. You can also set other options like port number and quality.
 ### config.env:
 ```bash
 ALLUC_API_KEY=INSERT_ALLUC_API_KEY_HERE
@@ -35,7 +34,9 @@ TMDB_API_KEY=INSERT_TMDB_API_KEY_HERE
 PORT=3000
 QUALITY=720p
 ```
-__Note__: Don't put your API Key in quotes! The entire world will end.
+__Warning__: Don't put your API Key in quotes! The entire world will end.
+
+__Note__:  If you don't want to specify quality, leave it as `QUALITY=`. (You will get many more results / streams this way).
 ### Example config.env
 ```bash
 ALLUC_API_KEY=ckazx56qh20ok5sy6d78tzq700spze6i
@@ -50,3 +51,12 @@ npm start
 ```
 
 Then visit [localhost:3000](http://localhost:3000) 
+
+## To-Do
+- [ ] Create REST API
+- [ ] Utlize React.js
+- [ ] Modularize app.js into seperate files
+- [ ] Add better navigation
+- [ ] Autoplay whatever exists, not just first openload link
+- [ ] Better discovery section (will require React)
+- [ ] Trakt integration

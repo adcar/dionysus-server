@@ -53,6 +53,8 @@ npm start
 Then visit [localhost:3000](http://localhost:3000) 
 
 ## To-Do
+- [ ] Add vidzi support
+- [ ] Fix Openload's "Embed Blocked" error
 - [ ] Create REST API
 - [ ] Utlize React.js
 - [ ] Modularize app.js into seperate files

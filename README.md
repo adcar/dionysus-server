@@ -54,7 +54,7 @@ Then visit [localhost:3000](http://localhost:3000)
 
 ## To-Do
 - [ ] Add vidzi support
-- [ ] Fix Openload's "Embed Blocked" error
+- [ ] Fix Openload's "Embed Blocked" error. Will have to disable sandbox and route through node-iframe-replacement and stripping any ads.
 - [ ] Create REST API
 - [ ] Utlize React.js
 - [ ] Modularize app.js into seperate files

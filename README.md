@@ -2,14 +2,14 @@
 [![travis][travis-img]][travis-url] [![david][david-img]][david-url] [![david dev][david-dev-img]][david-dev-url] [![standard style][standard-img]][standard-url]
 
 
-[david-img]: https://img.shields.io/david/md5hashbrowns/dionysus.svg?style=flat-square
-[david-url]: https://david-dm.org/md5hashbrowns/dionysus
+[david-img]: https://img.shields.io/david/adcar/dionysus.svg?style=flat-square
+[david-url]: https://david-dm.org/adcar/dionysus
 
-[david-dev-img]: https://img.shields.io/david/dev/md5hashbrowns/dionysus.svg?style=flat-square
-[david-dev-url]: https://david-dm.org/md5hashbrowns/dionysus?type=dev
+[david-dev-img]: https://img.shields.io/david/dev/adcar/dionysus.svg?style=flat-square
+[david-dev-url]: https://david-dm.org/adcar/dionysus?type=dev
 
-[travis-img]: https://img.shields.io/travis/MD5HashBrowns/dionysus.svg?style=flat-square
-[travis-url]: https://travis-ci.org/MD5HashBrowns/dionysus/
+[travis-img]: https://img.shields.io/travis/adcar/dionysus.svg?style=flat-square
+[travis-url]: https://travis-ci.org/adcar/dionysus/
 
 [standard-img]: https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat-square
 [standard-url]: https://standardjs.com
@@ -18,7 +18,7 @@ Dionysus is a Self-hosted TV Show and Movie streamer
 
 ## Setup
 ```
-git clone https://github.com/MD5HashBrowns/dionysus.git
+git clone https://github.com/adcar/dionysus.git
 cd dionysus
 npm install
 ```

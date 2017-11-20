@@ -53,6 +53,7 @@ npm start
 Then visit [localhost:3000](http://localhost:3000) 
 
 ## To-Do
+- [ ] Move away from Alluc, make (almost) everything client-side.
 - [ ] Add vidzi support
 - [ ] Fix Openload's "Embed Blocked" error. Will have to disable sandbox and route through node-iframe-replacement and stripping any ads.
 - [ ] Create REST API

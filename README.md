@@ -1,4 +1,4 @@
-# Dionysus 
+# Dionysus
 [![travis][travis-img]][travis-url] [![david][david-img]][david-url] [![david dev][david-dev-img]][david-dev-url] [![standard style][standard-img]][standard-url]
 
 
@@ -23,7 +23,7 @@ cd dionysus
 npm install
 ```
 ## Api Keys
-You'll need an API key from [alluc](http://accounts.alluc.com/register.html) and from [tmdb](https://www.themoviedb.org/account/signup). (Both require signups). 
+You'll need an API key from [alluc](http://accounts.alluc.com/register.html) and from [tmdb](https://www.themoviedb.org/account/signup). (Both require signups).
 
 ## Configure
 Create a file called `config.env` in the root of the projects directory. Here you need to set your API keys. You can also set other options like port number and quality.
@@ -50,13 +50,12 @@ From the dionysus directory run:
 npm start
 ```
 
-Then visit [localhost:3000](http://localhost:3000) 
+Then visit [localhost:3000](http://localhost:3000)
 
 ## To-Do
-- [ ] Move away from Alluc, make (almost) everything client-side.
-- [ ] Add vidzi support
+- [x] Move away from Alluc
 - [ ] Fix Openload's "Embed Blocked" error. Will have to disable sandbox and route through node-iframe-replacement and stripping any ads.
-- [ ] Create REST API
+- [ ] Create RESTful API
 - [ ] Utlize React.js
 - [ ] Modularize app.js into seperate files
 - [ ] Add better navigation

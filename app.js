@@ -130,61 +130,16 @@ app.get('/watch-episode/:id/:season/:episode/:name', function (req, res) {
       episodeNum = '0' + episodeNum.toString()
     }
 
-    // Alluc Openload request
-    rp('https://www.alluc.ee/api/search/stream/?apikey=' + process.env.ALLUC_API_KEY + '&query=' + '%22' + urlencode(req.params.name) + '%22' + '%20' + 'S' + seasonNum + 'E' + episodeNum + '%20' + process.env.QUALITY + '%20' + 'host%3Aopenload.co%2Cthevideo.me%2Cdocs.google.com' + '&count=3&from=0&getmeta=0')
-    .then(body => {
-      // Simple JSON parse from the request
-
-      var parsedBody = JSON.parse(body)
-
-      var openloadLinks = [] // Initialize Openload links array
-      var openloadTitles = [] // Initialize Openload titles array
-
-      var thevideoLinks = []
-      var thevideoTitles = []
-
-      var gdocsLinks = []
-      var gdocsTitles = []
-
-      if (parsedBody['result'].length > 0) {
-        for (let i = 0; i < parsedBody['result'].length; i++) {
-          if (parsedBody['result'][i]['hostername'] === 'openload.co') {
-            openloadLinks.push(parsedBody['result'][i]['hosterurls'][0]['url'])
-            openloadTitles.push(parsedBody['result'][i]['title'])
-          }
-          if (parsedBody['result'][i]['hostername'] === 'thevideo.me') {
-            thevideoLinks.push(parsedBody['result'][i]['hosterurls'][0]['url'])
-            thevideoTitles.push(parsedBody['result'][i]['title'])
-          }
-          if (parsedBody['result'][i]['hostername'] === 'docs.google.com' || parsedBody['result'][i]['hostername'] === 'drive.google.com') {
-            gdocsLinks.push(parsedBody['result'][i]['hosterurls'][0]['url'])
-            gdocsTitles.push(parsedBody['result'][i]['title'])
-          }
-        }
-        var streamsError = '' // Sets the stream error content to nothing
-      } else {
-        console.log("ERR: There's no streams available") // Logging
-        streamsError = 'Sorry, there are no streams available for this episode :(' // Gives stream error some content
-      }
       tmdb('tvInfo', {id: req.params.id}).then(tvInfo => {
         res.render('watchEpisode', {
-          openloadLinks: openloadLinks,
-          openloadTitles: openloadTitles,
-          thevideoLinks: thevideoLinks,
-          thevideoTitles: thevideoTitles,
-          gdocsLinks: gdocsLinks,
-          gdocsTitles: gdocsTitles,
           title: tvInfo.name + ' S' + req.params.season + ':E' + req.params.episode + ' - Dionysus',
           page: 'tvShows',
           episodeInfo: episodeInfo,
           tvInfo: tvInfo,
-          streamsError: streamsError
+          seasonNum: seasonNum,
+          episodeNum: episodeNum
         })
       })
-    })
-    .catch(err => {
-      console.log(err)
-    })
   })
   .catch(err => {
     console.log(err)
@@ -193,54 +148,12 @@ app.get('/watch-episode/:id/:season/:episode/:name', function (req, res) {
 
 app.get('/watch-movie/:id', function (req, res) {
   tmdb('movieInfo', {id: req.params.id}).then(movieInfo => {
-    // Concatenation is fun :D
-    rp('https://www.alluc.ee/api/search/stream/?apikey=' + process.env.ALLUC_API_KEY + '&query=' + '%22' + movieInfo.title + '%22' + '%20' + movieInfo.release_date.substring(0, 4) + '%20' + 'host%3Athevideo.me%2Copenload.co%2Cdocs.google.com' + '&count=3from=0&getmeta=0')
-    .then(body => {
-      // Simple JSON parse from the request
-      var parsedBody = JSON.parse(body)
-
-      var openloadLinks = [] // Initialize Openload links array
-      var openloadTitles = [] // Initialize Openload titles array
-
-      var thevideoLinks = []
-      var thevideoTitles = []
-
-      var gdocsLinks = []
-      var gdocsTitles = []
-
-      if (parsedBody['result'].length > 0) {
-        for (let i = 0; i < parsedBody['result'].length; i++) {
-          if (parsedBody['result'][i]['hostername'] === 'openload.co') {
-            openloadLinks.push(parsedBody['result'][i]['hosterurls'][0]['url'])
-            openloadTitles.push(parsedBody['result'][i]['title'])
-          }
-          if (parsedBody['result'][i]['hostername'] === 'thevideo.me') {
-            thevideoLinks.push(parsedBody['result'][i]['hosterurls'][0]['url'])
-            thevideoTitles.push(parsedBody['result'][i]['title'])
-          }
-          if (parsedBody['result'][i]['hostername'] === 'docs.google.com' || parsedBody['result'][i]['hostername'] === 'drive.google.com') {
-            gdocsLinks.push(parsedBody['result'][i]['hosterurls'][0]['url'])
-            gdocsTitles.push(parsedBody['result'][i]['title'])
-          }
-        }
-        var streamsError = '' // Sets the stream error content to nothing
-      } else {
-        console.log("ERR: There's no streams available") // Logging
-        streamsError = 'Sorry, there are no streams available for this Movie :(' // Gives stream error some content
-      }
       res.render('watchMovie', {
-        openloadLinks: openloadLinks,
-        openloadTitles: openloadTitles,
-        thevideoLinks: thevideoLinks,
-        thevideoTitles: thevideoTitles,
-        gdocsLinks: gdocsLinks,
-        gdocsTitles: gdocsTitles,
         title: movieInfo.title + ' - Dionysus',
         page: 'movies',
         movieInfo: movieInfo,
-        streamsError: streamsError
+
       })
-    })
   })
 })
 

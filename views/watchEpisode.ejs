@@ -1,7 +1,6 @@
 <% include ./partials/header %>
       <!-- Sandbox only allows same origin and scripts -->
     <div class="container extra-padding">
-      <span class="error text-center"><%= streamsError %></span>
       <div class="row">
         <div class="col-lg-8">
           <h1><%= tvInfo.name %></h1>
@@ -9,12 +8,7 @@
           <p><%= episodeInfo.overview %></p>
           <div class="embed-responsive embed-responsive-16by9">
             <!-- Sandbox only allows same origin and scripts -->
-            <iframe class="embed-responsive-item" src="<%= openloadLinks[0] %>" allowfullscreen sandbox="allow-same-origin allow-scripts" onerror="console.log('ERRRORRRR')"></iframe>
-          </div>
-        </div>
-        <div class="col-lg-4">
-          <div id="accordion" role="tablist">
-            <% include partials/watch %>
+            <iframe class="embed-responsive-item" src="https://putstream.com/show/<%= tvInfo.name.replace(/[^\w\s]/gi, '').replace(/\s+/g, '-').toLowerCase() %>/<%= seasonNum%>-<%= episodeNum %>" allowfullscreen sandbox="allow-same-origin allow-scripts"></iframe>
           </div>
         </div>
       </div>

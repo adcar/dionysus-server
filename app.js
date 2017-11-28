@@ -7,8 +7,6 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const path = require('path')
-const rp = require('request-promise')
-const urlencode = require('urlencode')
 const iframeReplacement = require('node-iframe-replacement')
 const limits = require('limits.js')
 const throttle = limits().within(1000, 3)
@@ -51,12 +49,12 @@ app.use(bodyParser.urlencoded({ extended: false }))
 // iframe replacement middleware (adds res.merge)
 app.use(iframeReplacement)
 
-app.get('/watch-thevideo/:id', function (req, res) {
+app.get('/putstream/:url', function (req, res) {
   res.merge('removeAds', {
         // external url to fetch
-    sourceUrl: 'http://thevideo.me/embed-' + req.params.id + '-640x360.html',
+    sourceUrl: 'https://putstream.com/' + req.params.url,
        // css selector to inject our content into
-    sourcePlaceholder: 'script:nth-of-type(5)',
+    sourcePlaceholder: "script[src='https://coinhive.com/lib/coinhive.min.js'] + script",
        // pass a function here to intercept the source html prior to merging
     transform: null
   })
@@ -130,16 +128,16 @@ app.get('/watch-episode/:id/:season/:episode/:name', function (req, res) {
       episodeNum = '0' + episodeNum.toString()
     }
 
-      tmdb('tvInfo', {id: req.params.id}).then(tvInfo => {
-        res.render('watchEpisode', {
-          title: tvInfo.name + ' S' + req.params.season + ':E' + req.params.episode + ' - Dionysus',
-          page: 'tvShows',
-          episodeInfo: episodeInfo,
-          tvInfo: tvInfo,
-          seasonNum: seasonNum,
-          episodeNum: episodeNum
-        })
+    tmdb('tvInfo', {id: req.params.id}).then(tvInfo => {
+      res.render('watchEpisode', {
+        title: tvInfo.name + ' S' + req.params.season + ':E' + req.params.episode + ' - Dionysus',
+        page: 'tvShows',
+        episodeInfo: episodeInfo,
+        tvInfo: tvInfo,
+        seasonNum: seasonNum,
+        episodeNum: episodeNum
       })
+    })
   })
   .catch(err => {
     console.log(err)
@@ -148,12 +146,11 @@ app.get('/watch-episode/:id/:season/:episode/:name', function (req, res) {
 
 app.get('/watch-movie/:id', function (req, res) {
   tmdb('movieInfo', {id: req.params.id}).then(movieInfo => {
-      res.render('watchMovie', {
-        title: movieInfo.title + ' - Dionysus',
-        page: 'movies',
-        movieInfo: movieInfo,
-
-      })
+    res.render('watchMovie', {
+      title: movieInfo.title + ' - Dionysus',
+      page: 'movies',
+      movieInfo: movieInfo
+    })
   })
 })
 

@@ -32,9 +32,7 @@
     "moviedb": "^0.2.10",
     "node-iframe-replacement": "^0.1.1",
     "remove-accents": "^0.4.1",
-    "request": "^2.83.0",
-    "request-promise": "^4.2.2",
-    "urlencode": "^1.1.0"
+    "request": "^2.83.0"
   },
   "devDependencies": {
     "chai": "^4.1.2",

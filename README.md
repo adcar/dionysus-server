@@ -22,27 +22,22 @@ git clone https://github.com/adcar/dionysus.git
 cd dionysus
 npm install
 ```
-## Api Keys
-You'll need an API key from [alluc](http://accounts.alluc.com/register.html) and from [tmdb](https://www.themoviedb.org/account/signup). (Both require signups).
+## MovieDB Api Key
+You'll need an API key from [tmdb](https://www.themoviedb.org/account/signup). (Requires a signup).
 
 ## Configure
-Create a file called `config.env` in the root of the projects directory. Here you need to set your API keys. You can also set other options like port number and quality.
+Create a file called `config.env` in the root of the projects directory. Here you need to set your TMDB API key. You can also set other options like port number.
 ### config.env:
 ```bash
-ALLUC_API_KEY=INSERT_ALLUC_API_KEY_HERE
 TMDB_API_KEY=INSERT_TMDB_API_KEY_HERE
-PORT=3000
-QUALITY=720p
 ```
 __Warning__: Don't put your API Key in quotes! The entire world will end.
 
 __Note__:  If you don't want to specify quality, leave it as `QUALITY=`. (You will get many more results / streams this way).
 ### Example config.env
 ```bash
-ALLUC_API_KEY=ckazx56qh20ok5sy6d78tzq700spze6i
 TMDB_API_KEY=ml3cp62vuta5n4w8lna3v0qe0729p12d
 PORT=3000
-QUALITY=720p
 ```
 ## Run
 From the dionysus directory run:

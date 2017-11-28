@@ -16,9 +16,6 @@ const removeAccents = require('remove-accents')
 require('env2')('./config.env')
 
 // Handle some errors if default values
-if (process.env.ALLUC_API_KEY === 'INSERT_ALLUC_API_KEY_HERE') {
-  throw Error('You have not entered your Alluc API Key in config.env. Please visit http://accounts.alluc.com/ and register for an account to get an API key.')
-}
 if (process.env.TMDB_API_KEY === 'INSERT_TMDB_API_KEY_HERE') {
   throw Error('You have not entered your Trakt ID and/or Trakt Secret in config.env. Please visit https://trakt.tv/oauth/applications/new to create a Trakt app and get these credientials')
 }

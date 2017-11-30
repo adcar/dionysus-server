@@ -11,6 +11,11 @@
             <iframe class="embed-responsive-item" src="https://putstream.com/show/<%= tvInfo.name.replace(/[^\w\s]/gi, '').replace(/\s+/g, '-').toLowerCase() %>/<%= seasonNum%>-<%= episodeNum %>" allowfullscreen sandbox="allow-same-origin allow-scripts"></iframe>
           </div>
         </div>
+        <div class="col-lg-4">
+         <div id="accordion" role="tablist">
+           <% include partials/watch %>
+         </div>
+       </div>
       </div>
     </div>
 <style>

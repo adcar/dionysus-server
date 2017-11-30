@@ -33,7 +33,6 @@ TMDB_API_KEY=INSERT_TMDB_API_KEY_HERE
 ```
 __Warning__: Don't put your API Key in quotes! The entire world will end.
 
-__Note__:  If you don't want to specify quality, leave it as `QUALITY=`. (You will get many more results / streams this way).
 ### Example config.env
 ```bash
 TMDB_API_KEY=ml3cp62vuta5n4w8lna3v0qe0729p12d

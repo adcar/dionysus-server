@@ -5,11 +5,13 @@
   "main": "app.js",
   "scripts": {
     "test": "ejslint views/*.ejs views/partials/*.ejs && standard",
-    "start": "node app.js"
+    "start": "node app.js",
+    "watch": "node_modules/.bin/webpack --watch",
+    "serve": "node_modules/.bin/webpack-dev-server"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/md5hashbrowns/dionysus.git"
+    "url": "git+https://github.com/adcar/dionysus.git"
   },
   "keywords": [
     "stream",
@@ -19,9 +21,9 @@
   "author": "MD5HashBrowns",
   "license": "GPL-3.0",
   "bugs": {
-    "url": "https://github.com/md5hashbrowns/dionysus/issues"
+    "url": "https://github.com/adcar/dionysus/issues"
   },
-  "homepage": "https://github.com/md5hashbrowns/dionysus#readme",
+  "homepage": "https://github.com/md5hashbrowns/adcar#readme",
   "dependencies": {
     "body-parser": "^1.18.2",
     "contraktor": "^1.1.1",
@@ -39,9 +41,10 @@
     "request": "^2.83.0"
   },
   "devDependencies": {
-    "@babel/preset-react": "^7.0.0-beta.32",
+    "webpack-dev-server": "^2.9.5",
     "@babel/core": "^7.0.0-beta.32",
     "@babel/preset-env": "^7.0.0-beta.32",
+    "@babel/preset-react": "^7.0.0-beta.32",
     "babel-cli": "^6.26.0",
     "babel-loader": "^8.0.0-beta.0",
     "chai": "^4.1.2",

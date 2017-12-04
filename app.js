@@ -31,6 +31,49 @@ const tmdb = (m, q) => new Promise((resolve, reject) => {
 // Set express to app
 const app = express()
 
+// Set the Router to api
+const api = express.Router();
+
+// Prefix api with /api
+app.use('/api', api)
+
+// API Stuff
+api.get('/', function(req, res) {
+    res.json({ message: 'Welcome to the Dionysus RESTful API!' });
+})
+api.get('/shows', function(req, res) {
+  tmdb('miscPopularTvs').then(tvShows => {
+    res.json(tvShows)
+  })
+})
+api.get('/movies', function(req, res) {
+  tmdb('discoverMovie', { 'sort_by': 'popularity.desc', 'primary_release_year': '2016' }).then(movies => {
+    res.json(movies)
+  })
+})
+api.get('/show/:id', function (req, res) {
+  tmdb('tvInfo', {id: req.params.id}).then(tvInfo => {
+    var promises = []
+    for (let i = 0; i < tvInfo.seasons.length; i++) {
+      // Here I check to see if the season 0 has a season_number of 0, if it does then I can include specials, if not then add 1.
+      if (tvInfo.seasons[0].season_number === 0) {
+        promises.push(tmdb('tvSeasonInfo', {id: tvInfo.id, season_number: i}))
+      } else {
+        promises.push(tmdb('tvSeasonInfo', {id: tvInfo.id, season_number: i + 1}))
+      }
+    }
+    Promise.all(promises)
+    .then(seasonInfo => {
+      res.json(seasonInfo)
+    })
+  })
+})
+api.get('/episode/:id', function (req, res) {
+  tmdb('tvInfo', {id: req.params.id}).then(tvInfo => {
+    res.json(tvInfo)
+  })
+})
+
 // Set viewing engine to ejs
 app.set('view engine', 'ejs')
 

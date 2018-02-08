@@ -8,7 +8,7 @@
           <p><%= episodeInfo.overview %></p>
           <div class="embed-responsive embed-responsive-16by9">
             <!-- Sandbox only allows same origin and scripts -->
-            <iframe class="embed-responsive-item" src="https://gomostream.com/show/<%= tvInfo.name.replace(/[^\w\s]/gi, '').replace(/\s+/g, '-').toLowerCase() %>/<%= seasonNum%>-<%= episodeNum %>" allowfullscreen sandbox="allow-same-origin allow-scripts"></iframe>
+            <iframe class="embed-responsive-item" src="https://gomostream.com/show/<%= tvInfo.name.replace(/[^\w\s]/gi, '').replace(/\s+/g, '-').toLowerCase() %>/<%= seasonNum%>-<%= episodeNum %>" allowfullscreen ></iframe>
           </div>
         </div>
       </div>

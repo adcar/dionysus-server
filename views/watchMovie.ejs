@@ -6,8 +6,10 @@
           <h1><%= movieInfo.title %></h1>
           <p><%= movieInfo.overview %></p>
           <div class="embed-responsive embed-responsive-16by9">
-            <!-- Sandbox only allows same origin and scripts -->
-            <iframe class="embed-responsive-item" src="https://gomostream.com/movie/<%= movieInfo.title.replace(/\s+/g, '-').toLowerCase() %>" allowfullscreen ></iframe>
+            <video controls="">
+              <source src="http://ctvod.run/ctv/guestmod/<%= movieInfo.title.replace(/\s+/g, '.').toLowerCase() %>.mp4" type="video/mp4">
+              Please update your browser to play this content
+            </video>
           </div>
         </div>
       </div>

@@ -7,8 +7,8 @@
           <p><%= movieInfo.overview %></p>
           <div class="dionysus-video">
             <video id="my-video" class="video-js" autoplay controls preload="auto"  data-setup="{}" width="730">
-              <source src="http://ctvod.run/ctv/guestmod/<%= movieInfo.title.replace(/\s+/g, '.').toLowerCase() %>.mp4">
-              <source src="http://ctvod.run/ctv/guestmod/<%= movieInfo.title.replace(/\s+/g, '.').toLowerCase() %>.mkv">
+              <source src="http://ctvod.run/ctv/guestmod/<%= movieInfo.title.replace(/[^\w\s]/gi, '').replace(/\s+/g, '.').toLowerCase() %>.mp4">
+              <source src="http://ctvod.run/ctv/guestmod/<%= movieInfo.title.replace(/[^\w\s]/gi, '').replace(/\s+/g, '.').toLowerCase() %>.mkv">
 
               Please update your browser to the latest version of Chrome to stream this content
             </video>
